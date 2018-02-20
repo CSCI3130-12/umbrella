@@ -1,31 +1,36 @@
 package com.umbrella.umbrella;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
 /**
  * Created by justin on 16/02/18.
+ * Contains methods to manager user login
  */
 
 public class LoginManager {
 
-    private static HashMap<String, String> db;
+    private ArrayList<User> users;
 
-    public static boolean login(String username, String password){
-        if(db.containsKey(username)){
-            if(db.get(username).equals(password)){
-                return  true;
+    public LoginManager() {
+
+    }
+
+    public boolean login(String username, String password) {
+
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                if (user.getPassword().equals((password))) {
+                    return true;
+                }
             }
         }
+
         return false;
-
     }
 
-    public static void initialiseDB(HashMap<String,String> users){
-        db = users;
-    }
-
-    public static HashMap<String,String> getDB(){
-        return db;
+    public LoginManager(ArrayList<User> users) {
+        this.users = users;
     }
 }
