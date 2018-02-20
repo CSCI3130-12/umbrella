@@ -10,6 +10,9 @@ import java.util.Collection;
 
 /**
  * Created by samdoiron on 2018-02-16.
+ *
+ * This is the activity that shows a user a listing of courses that they
+ * can register for.
  */
 
 public class RegistrationActivity extends Activity {
@@ -25,6 +28,11 @@ public class RegistrationActivity extends Activity {
         listView.setAdapter(dataAdapter());
     }
 
+    /**
+     * Adapts the course data provided by the view model into a form that the
+     * android list view wants.
+     * @return an ArrayAdapter that can be used with a list view.
+     */
     ArrayAdapter dataAdapter() {
         Collection<CourseListingViewModel> courses = viewModel.getCourses();
         CourseListingViewModel listings[] = new CourseListingViewModel[courses.size()];
