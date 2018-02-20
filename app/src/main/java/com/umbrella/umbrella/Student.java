@@ -11,30 +11,27 @@ import java.util.LinkedList;
 public class Student extends User {
 
 
-    LinkedList<Course> courseList;
+    private CourseSet courseList;
 
     public  Student(){
-        courseList = new LinkedList<Course>();
+        courseList = new CourseSet();
 
     }
 
-    public LinkedList<Course> getCourseList() {
+    public CourseSet getCourseList() {
         return courseList;
     }
 
-    public void setCourseList(LinkedList<Course> courseList) {
+    public void setCourseList(CourseSet courseList) {
         this.courseList = courseList;
     }
 
-    public Student(String username, String password, LinkedList<Course> courseList){
+    public Student(String username, String password, CourseSet courseList){
        setUsername(username);
        setPassword(password);
        this.courseList = courseList;
    }
 
-   public void addCourse(Course course){
-       courseList.add(course);
-   }
 
     /**
      * Checks if a student has a class in their registered classes.
@@ -42,31 +39,11 @@ public class Student extends User {
      * @return True if the course exists
      */
     public boolean hasCourse(Course course) {
-        int i = 0;
-        boolean found = false;
-        while (!found && (i < courseList.size())) {
-            if (courseList.get(i).getCourseID().equals(course.getCourseID())) {
-                found = true;
-            }
-            i++;
-        }
-        return found;
+        return courseList.hasCourse(course);
     }
 
-    /**
-     * Checks if a student has a class in their registered classes.
-     * @param courseID The ID of the course
-     * @return True if the course exists
-     */
-    public boolean hasCourse(String courseID) {
-        int i = 0;
-        boolean found = false;
-        while (!found || i < courseList.size()) {
-            if (courseList.get(i).getCourseID().equals(courseID)) {
-                found = true;
-            }
-            i++;
-        }
-        return found;
+    public void addCourse(Course course) {
+        courseList.addCourse(course);
     }
+
 }

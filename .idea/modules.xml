@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://C:\Users\wauch\AndroidStudioProjects\umbrella\Project.iml" filepath="C:\Users\wauch\AndroidStudioProjects\umbrella\Project.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\wauch\AndroidStudioProjects\umbrella\app\app.iml" filepath="C:\Users\wauch\AndroidStudioProjects\umbrella\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/umbrella.iml" filepath="$PROJECT_DIR$/umbrella.iml" />
     </modules>
   </component>

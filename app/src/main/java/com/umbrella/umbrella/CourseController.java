@@ -16,40 +16,16 @@ public class CourseController {
      * @param course The course to be added
      * @param student The student object to have the course added to
      */
-    public void addCourse(Course course, Student student){
-        if(compareCourseLists(course.getPreReq(), student) && compareCourseLists(course.getCoReq(), student) ) {
-            student.addCourse(course);
-        }
-
-    }
-
-    /**
-     * Compares two lists and stores the non-intersected values in a list. Used for determining
-     * prerequisites and corequisite requirements.
-     * @param courseList The list of courses to find in the student's course lists
-     * @param student The student's list of already signed up courses
-     * @return True if all prerequisites are met.
-     */
-    public boolean compareCourseLists(LinkedList<Course> courseList, Student student){
-        LinkedList<Course> missingCourses = new LinkedList<>(); //can be used for error messages and other things later
-        LinkedList<Course> studCourses = student.getCourseList();
-        Boolean matchFound = false;
-
-        for(int i = 0; i < courseList.size(); i++){
-            int j = 0;
-            matchFound = false;
-            while(!matchFound && j < studCourses.size()){
-                if(studCourses.get(j).getCourseID().equals(courseList.get(i).getCourseID()) ){
-                    matchFound = true;
-                }
-                j++;
+    public void addCourse(Course course, Student student) {
+        try {
+            if (student.getCourseList().doesIntersect(course.getCorequisite()) &&
+                   student.getCourseList().doesIntersect(course.getPrerequisite())) {
+                student.addCourse(course);
             }
-            if(!matchFound){
-                missingCourses.add(courseList.get(i));
-            }
+
+        } catch (Exception E) {
+            System.out.println("Coreqs and prerequisites were probably not set.");
+            //do nothing :D
         }
-
-        return (missingCourses.size() == 0); //return true if no courses requirements are missing
     }
-
 }

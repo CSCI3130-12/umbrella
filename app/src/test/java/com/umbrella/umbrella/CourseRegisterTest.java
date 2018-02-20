@@ -1,5 +1,6 @@
 package com.umbrella.umbrella;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,37 +11,45 @@ import static org.junit.Assert.*;
 
 public class CourseRegisterTest {
 
+    Course course, course2, course3;
+    CourseController controller;
+    Student student;
 
-
+    @Before
+    public void intialize() {
+        course = new Course("1", "CSCI1000", "Computer Science 1");
+        course2 = new Course("2", "INFX3000", "Database Studies");
+        course3 = new Course("3", "INFX4000", "Datamining");
+        controller = new CourseController();
+        student = new Student();
+    }
 
     @Test
     public void AddCourse() throws Exception {
-        Course course = new Course("10", "CSCI1000");
-        CourseController controller = new CourseController();
-        Student student = new Student();
         controller.addCourse(course, student);
         assertEquals (true, student.hasCourse(course));
     }
 
     @Test
     public void FindNotAddedCourse() throws Exception {
-        Course course = new Course("10", "CSCI1000");
-        Course course2 = new Course("12", "INFX3000");
-        CourseController controller = new CourseController();
-        Student student = new Student();
         controller.addCourse(course, student);
         assertEquals (false, student.hasCourse(course2));
     }
 
     @Test
-    public void AddCourseWithoutCoRequisite() throws Exception {
-        Course course = new Course("10", "CSCI1000", "CRS");
-        Course course2 = new Course("12", "CSCI1000LAB", "LAB");
-        course.addCoReq(course2);
-        course2.addCoReq(course);
-        CourseController controller = new CourseController();
-        Student student = new Student();
+    public void AddCourseWithCoRequisite() throws Exception {
+        course.addCorequisite(course2);
+        controller.addCourse(course2, student);
+        controller.addCourse(course, student);
 
+        assertEquals( true, student.hasCourse(course));
+
+    }
+
+    @Test
+    public void AddCourseWithoutCoRequisite() throws Exception {
+        course.addCorequisite(course2);
+        course2.addCorequisite(course);
         controller.addCourse(course, student);
 
         assertEquals (false, student.hasCourse(course));
@@ -48,12 +57,7 @@ public class CourseRegisterTest {
 
     @Test
     public void AddCourseWithPreRequisite() throws Exception {
-        CourseController controller = new CourseController();
-        Student student = new Student();
-        Course course = new Course("10", "CSCI1000", "CRS");
-        Course course2 = new Course("12", "INFX2000", "CRS");
-        course2.addPreReq(course);
-
+        course2.addPrerequisite(course);
         controller.addCourse(course, student);
         controller.addCourse(course2, student);
 
@@ -62,12 +66,7 @@ public class CourseRegisterTest {
 
     @Test
     public void AddCourseWithoutPreRequisite() throws Exception {
-        Course course = new Course("10", "CSCI1000", "CRS");
-        Course course2 = new Course("12", "INFX2000", "CRS");
-        course2.addPreReq(course);
-        CourseController controller = new CourseController();
-        Student student = new Student();
-
+        course2.addPrerequisite(course);
         controller.addCourse(course2, student);
 
         assertEquals (false, student.hasCourse(course2));
@@ -75,18 +74,42 @@ public class CourseRegisterTest {
 
     @Test
     public void AddCourseWithoutPreRequisiteInWrongOrder() throws Exception {
-        Course course = new Course("10", "CSCI1000", "CRS");
-        Course course2 = new Course("12", "INFX2000", "CRS");
-        course2.addPreReq(course);
-        CourseController controller = new CourseController();
-        Student student = new Student();
-
+        course2.addPrerequisite(course);
         controller.addCourse(course2, student);
         controller.addCourse(course, student);
 
         assertEquals (false, student.hasCourse(course2)); //course2 requires course 1 to be added first
         assertEquals (true, student.hasCourse(course));
     }
+
+    @Test
+    public void GetListofIntersectingCoursesTest() throws Exception {
+        CourseSet courseSet = new CourseSet();
+        courseSet.addCourse(course);
+        courseSet.addCourse(course2);
+        CourseSet courseSet2 = new CourseSet();
+        courseSet2.addCourse(course);
+        courseSet2.addCourse(course2);
+        courseSet2.addCourse(course3);
+        course2.addPrerequisite(course);
+
+        assertEquals (true, courseSet.intersectingCourses(courseSet2).hasCourse(course));
+    }
+
+    @Test
+    public void GetListofIntersectingCoursesFalseTest() throws Exception {
+        CourseSet courseSet = new CourseSet();
+        courseSet.addCourse(course);
+        courseSet.addCourse(course2);
+        CourseSet courseSet2 = new CourseSet();
+        courseSet2.addCourse(course);
+        courseSet2.addCourse(course2);
+        courseSet2.addCourse(course3);
+        course2.addPrerequisite(course);
+        //test should result in course 3 not being the in the resulting intersection and hence false
+        assertEquals (false, courseSet.intersectingCourses(courseSet2).hasCourse(course3));
+    }
+
 
 
 

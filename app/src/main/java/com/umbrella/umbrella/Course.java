@@ -9,32 +9,37 @@ import java.util.LinkedList;
 
 public class Course {
 
+    /*To have attributes added as needed, modify after DB integration*/
+    private String CRN;
     private String courseID;
     private String courseName;
     public enum CourseType {
     CRS, TUT, LAB
     }
     private CourseType courseType;
-    private LinkedList<Course> preReq;
-    private LinkedList<Course> coReq;
+    private String Faculty;
+    private CourseSet preReq;
+    private CourseSet coReq;
 
     public Course(){
-        preReq = new LinkedList<>();
-        coReq = new LinkedList<>();
+        preReq = new CourseSet();
+        coReq = new CourseSet();
         courseType = CourseType.CRS;
 
     }
 
-    public Course(String courseID, String courseName) {
-        preReq = new LinkedList<>();
-        coReq = new LinkedList<>();
+    public Course(String CRN, String courseID, String courseName) {
+        preReq = new CourseSet();
+        coReq = new CourseSet();
+        this.CRN = CRN;
         this.courseID = courseID;
         this.courseName = courseName;
     }
 
-    public Course(String courseID, String courseName, String courseType) {
-        preReq = new LinkedList<>();
-        coReq = new LinkedList<>();
+    public Course(String CRN, String courseID, String courseName, String courseType) {
+        preReq = new CourseSet();
+        coReq = new CourseSet();
+        this.CRN = CRN;
         this.courseID = courseID;
         this.courseName = courseName;
 
@@ -53,11 +58,20 @@ public class Course {
     }
 
 
-    public Course(String courseID, String courseName, LinkedList<Course> preReq, LinkedList<Course> coReq) {
+    public Course(String CRN, String courseID, String courseName, CourseSet preReq, CourseSet coReq) {
         this.preReq = preReq;
         this.coReq = coReq;
+        this.CRN = CRN;
         this.courseID = courseID;
         this.courseName = courseName;
+    }
+
+    public String getCRN() {
+        return CRN;
+    }
+
+    public void setCRN(String CRN) {
+        this.CRN = CRN;
     }
 
     public String getCourseID() {
@@ -77,19 +91,27 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public void addPreReq(Course course){
-        preReq.add(course);
+    /**
+     * Adds a preqrequisite course to the student's list of prerequisite courses.
+     * @param course A course object.
+     */
+    public void addPrerequisite(Course course){
+        preReq.addCourse(course);
     }
 
-    public void addCoReq(Course course){
-        coReq.add(course);
+    /**
+     * Adds a corequisite course to the student's list of corequisite courses.
+     * @param course A course object.
+     */
+    public void addCorequisite(Course course){
+        coReq.addCourse(course);
     }
 
-    public LinkedList<Course> getPreReq(){
+    public CourseSet getPrerequisite(){
         return preReq;
     }
 
-    public LinkedList<Course> getCoReq(){
+    public CourseSet getCorequisite(){
         return coReq;
     }
 
