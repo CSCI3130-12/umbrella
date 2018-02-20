@@ -5,7 +5,7 @@ import java.util.Collection;
 
 /**
  * Created by samdoiron on 2018-02-20.
- * This is a view model containing the data nessesary to display
+ * This is a view model containing the data necessary to display
  * a listing of courses to a user.
  */
 
