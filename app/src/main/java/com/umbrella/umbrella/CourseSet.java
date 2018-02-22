@@ -91,9 +91,44 @@ public class CourseSet {
     /**
      * Returns a CourseSet of intersecting courses.
      * @param theirCourses A CourseSet of courses to be compared to this objects
-     * @return missingCourses A CourseSet of courses that do not intersect
+     * @return missingCourses A CourseSet of courses that do intersect
      */
     public CourseSet intersectingCourses(CourseSet theirCourses) {
+        CourseSet missingCourses = new CourseSet();
+        String crn;
+        Course course;
+        try {
+
+            if (theirCourses.getCourseSet().isEmpty()) {
+                return missingCourses;
+            }
+
+            Set<String> intersectCourses = theirCourses.getCourseSet().keySet();
+            Set<String> ourCourses = this.courses.keySet();
+
+            ourCourses.retainAll(intersectCourses);
+
+            Iterator<String> iter = ourCourses.iterator();
+
+            while (iter.hasNext()) {
+                crn = iter.next();
+                course = this.getCourseByCrn(crn);
+                missingCourses.addCourse(course);
+            }
+
+       }
+        catch (Exception E) {
+                //System.out.println(E.getLocalizedMessage());
+       }
+        return missingCourses;
+    }
+
+    /**
+     * Returns a CourseSet of courses that theirCourses do not intersect with (i.e. courses thay have not done)
+     * @param theirCourses A CourseSet of courses to be compared to this objects
+     * @return missingCourses A CourseSet of courses that do not intersect
+     */
+    public CourseSet nonIntersectingCourses(CourseSet theirCourses) {
         CourseSet missingCourses = new CourseSet();
         String crn;
         Course course;
@@ -116,10 +151,10 @@ public class CourseSet {
                 missingCourses.addCourse(course);
             }
 
-       }
+        }
         catch (Exception E) {
-                //System.out.println(E.getLocalizedMessage());
-       }
+            //System.out.println(E.getLocalizedMessage());
+        }
         return missingCourses;
     }
 }

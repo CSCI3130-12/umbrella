@@ -109,6 +109,33 @@ public class CourseRegisterTest {
         assertEquals (false, courseSet.intersectingCourses(courseSet2).hasCourse(course3));
     }
 
+    public void GetListofNonIntersectingCoursesTest() throws Exception {
+        CourseSet courseSet = new CourseSet();
+        courseSet.addCourse(course);
+        courseSet.addCourse(course2);
+        CourseSet courseSet2 = new CourseSet();
+        courseSet2.addCourse(course);
+        courseSet2.addCourse(course2);
+        courseSet2.addCourse(course3);
+        course2.addPrerequisite(course);
+
+        assertEquals (false, courseSet.nonIntersectingCourses(courseSet2).hasCourse(course));
+    }
+
+    @Test
+    public void GetListofNonIntersectingCoursesFalseTest() throws Exception {
+        CourseSet courseSet = new CourseSet();
+        courseSet.addCourse(course);
+        courseSet.addCourse(course2);
+        courseSet.addCourse(course3);
+        CourseSet courseSet2 = new CourseSet();
+        courseSet2.addCourse(course);
+        courseSet2.addCourse(course2);
+
+        course2.addPrerequisite(course);
+        //test should result in course 3 being in the in the resulting intersection and hence true
+        assertEquals (true, courseSet.nonIntersectingCourses(courseSet2).hasCourse(course3));
+    }
 
 
 
