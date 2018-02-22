@@ -56,8 +56,7 @@ public class CourseSet {
      * @return True if the course is in the set.
      */
     public boolean hasCourse(Course course){
-        boolean result = courses.containsKey(course.getCrn());
-        return result;
+        return courses.containsKey(course.getCrn());
     }
 
     /**
@@ -94,13 +93,13 @@ public class CourseSet {
      * @return missingCourses A CourseSet of courses that do intersect
      */
     public CourseSet intersectingCourses(CourseSet theirCourses) {
-        CourseSet missingCourses = new CourseSet();
+        CourseSet resultingCourses = new CourseSet();
         String crn;
         Course course;
         try {
 
             if (theirCourses.getCourseSet().isEmpty()) {
-                return missingCourses;
+                return resultingCourses;
             }
 
             Set<String> intersectCourses = theirCourses.getCourseSet().keySet();
@@ -113,14 +112,14 @@ public class CourseSet {
             while (iter.hasNext()) {
                 crn = iter.next();
                 course = this.getCourseByCrn(crn);
-                missingCourses.addCourse(course);
+                resultingCourses.addCourse(course);
             }
 
        }
         catch (Exception E) {
                 //System.out.println(E.getLocalizedMessage());
        }
-        return missingCourses;
+        return resultingCourses;
     }
 
     /**
