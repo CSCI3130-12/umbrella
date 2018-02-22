@@ -10,9 +10,9 @@ import static org.junit.Assert.*;
  */
 public class CourseRegisterTest {
 
-    Course course, course2, course3;
-    AddCourse controller;
-    Student student;
+    private Course course, course2, course3;
+    private AddCourse controller;
+    private Student student;
 
     @Before
     public void intialize() {
@@ -109,6 +109,7 @@ public class CourseRegisterTest {
         assertEquals (false, courseSet.intersectingCourses(courseSet2).hasCourse(course3));
     }
 
+    @Test
     public void GetListofNonIntersectingCoursesTest() throws Exception {
         CourseSet courseSet = new CourseSet();
         courseSet.addCourse(course);
