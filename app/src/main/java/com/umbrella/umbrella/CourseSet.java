@@ -39,7 +39,7 @@ public class CourseSet {
      * @param course The course object to be added
      */
     public void addCourse(Course course){
-        courses.put(course.getcrn(), course);
+        courses.put(course.getCrn(), course);
     }
 
     /**
@@ -47,7 +47,7 @@ public class CourseSet {
      * @param course The course object to be added.
      */
     public void removeCourse(Course course){
-        courses.remove(course.getcrn());
+        courses.remove(course.getCrn());
     }
 
     /**
@@ -56,7 +56,7 @@ public class CourseSet {
      * @return True if the course is in the set.
      */
     public boolean hasCourse(Course course){
-        boolean result = courses.containsKey(course.getcrn());
+        boolean result = courses.containsKey(course.getCrn());
         return result;
     }
 
@@ -90,23 +90,25 @@ public class CourseSet {
 
     /**
      * Returns a CourseSet of intersecting courses.
-     * @param courseSet The courseset to be intersected with.
-     * @return CourseSet of intersecting courses.
+     * @param theirCourses A CourseSet of courses to be compared to this objects
+     * @return missingCourses A CourseSet of courses that do not intersect
      */
-    public CourseSet intersectingCourses(CourseSet courseSet) {
+    public CourseSet intersectingCourses(CourseSet theirCourses) {
         CourseSet missingCourses = new CourseSet();
         String crn;
         Course course;
         try {
 
-            if (courseSet.getCourseSet().isEmpty()) {
+            if (theirCourses.getCourseSet().isEmpty()) {
                 return missingCourses;
             }
 
-            Set<String> intersectCourses = courseSet.getCourseSet().keySet();
-            Set<String> courseThisSet = this.courses.keySet();
+            Set<String> intersectCourses = theirCourses.getCourseSet().keySet();
+            Set<String> ourCourses = this.courses.keySet();
 
-            Iterator<String> iter = courseThisSet.iterator();
+            ourCourses.removeAll(intersectCourses);
+
+            Iterator<String> iter = ourCourses.iterator();
 
             while (iter.hasNext()) {
                 crn = iter.next();

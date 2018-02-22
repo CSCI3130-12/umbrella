@@ -17,26 +17,26 @@ public class Course {
     }
     private CourseType courseType;
     private String Faculty;
-    private CourseSet preRequisite;
-    private CourseSet coRequisite;
+    private CourseSet prerequisite;
+    private CourseSet corequisite;
 
     public Course(){
-        preRequisite = new CourseSet();
-        coRequisite = new CourseSet();
+        prerequisite = new CourseSet();
+        corequisite = new CourseSet();
         courseType = CourseType.CRS;
     }
 
     public Course(String crn, String courseID, String courseName) {
-        preRequisite = new CourseSet();
-        coRequisite = new CourseSet();
+        prerequisite = new CourseSet();
+        corequisite = new CourseSet();
         this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
     }
 
     public Course(String crn, String courseID, String courseName, String courseType) {
-        preRequisite = new CourseSet();
-        coRequisite = new CourseSet();
+        prerequisite = new CourseSet();
+        corequisite = new CourseSet();
         this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
@@ -55,15 +55,19 @@ public class Course {
     }
 
 
-    public Course(String crn, String courseID, String courseName, CourseSet preRequisite, CourseSet coRequisite) {
-        this.preRequisite = preRequisite;
-        this.coRequisite = coRequisite;
+    public Course(String crn, String courseID, String courseName, CourseSet prerequisite, CourseSet corequisite) {
+        this.prerequisite = prerequisite;
+        this.corequisite = corequisite;
         this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
     }
 
-    public String getcrn() {
+    /**
+     * Returns the course registration number which will be used as a primary key
+     * @return crn Course registration number used for a primary key
+     */
+    public String getCrn() {
         return crn;
     }
 
@@ -71,7 +75,7 @@ public class Course {
      * Sets the the CRN value (course registration number) which will be used as a primary key
      * @param crn Course registration number used for a primary key
      */
-    public void setcrn(String crn) {
+    public void setCrn(String crn) {
         this.crn = crn;
     }
 
@@ -113,7 +117,7 @@ public class Course {
      * @param course A course object.
      */
     public void addPrerequisite(Course course){
-        preRequisite.addCourse(course);
+        prerequisite.addCourse(course);
     }
 
     /**
@@ -121,7 +125,7 @@ public class Course {
      * @param course A course object.
      */
     public void addCorequisite(Course course){
-        coRequisite.addCourse(course);
+        corequisite.addCourse(course);
     }
 
     /**
@@ -129,7 +133,7 @@ public class Course {
      * @return CourseSet a set of courses containing hashmap of prerequisite courses
      */
     public CourseSet getPrerequisite(){
-        return preRequisite;
+        return prerequisite;
     }
 
     /**
@@ -137,7 +141,7 @@ public class Course {
      * @return CourseSet a set of courses containing hashmap of corequisite courses
      */
     public CourseSet getCorequisite(){
-        return coRequisite;
+        return corequisite;
     }
 
 }
