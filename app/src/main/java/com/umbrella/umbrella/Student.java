@@ -15,7 +15,6 @@ public class Student extends User {
 
     public  Student(){
         courseList = new CourseSet();
-
     }
 
     public CourseSet getCourseList() {

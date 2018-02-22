@@ -5,14 +5,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
+/**A test class for testing the AddCourse usecase
  * Created by wauch on 2018-02-19.
  */
-
 public class CourseRegisterTest {
 
     Course course, course2, course3;
-    CourseController controller;
+    AddCourse controller;
     Student student;
 
     @Before
@@ -20,7 +19,7 @@ public class CourseRegisterTest {
         course = new Course("1", "CSCI1000", "Computer Science 1");
         course2 = new Course("2", "INFX3000", "Database Studies");
         course3 = new Course("3", "INFX4000", "Datamining");
-        controller = new CourseController();
+        controller = new AddCourse();
         student = new Student();
     }
 

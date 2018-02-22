@@ -1,13 +1,11 @@
 package com.umbrella.umbrella;
 
-import java.util.LinkedList;
-
 /**
  * Created by wauch on 2018-02-19.
- * A course for doing application logic around adding and removing courses from students
+ * A usecase for doing application logic around adding courses to students
  */
 
-public class CourseController {
+public class AddCourse {
 
     //how to do we deal with courses like lab+course that require each other? Let people add them but warn them?
 

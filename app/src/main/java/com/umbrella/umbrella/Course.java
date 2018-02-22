@@ -8,9 +8,8 @@ import java.util.LinkedList;
  */
 
 public class Course {
-
     /*To have attributes added as needed, modify after DB integration*/
-    private String CRN;
+    private String crn;
     private String courseID;
     private String courseName;
     public enum CourseType {
@@ -18,75 +17,93 @@ public class Course {
     }
     private CourseType courseType;
     private String Faculty;
-    private CourseSet preReq;
-    private CourseSet coReq;
+    private CourseSet preRequisite;
+    private CourseSet coRequisite;
 
     public Course(){
-        preReq = new CourseSet();
-        coReq = new CourseSet();
+        preRequisite = new CourseSet();
+        coRequisite = new CourseSet();
         courseType = CourseType.CRS;
-
     }
 
-    public Course(String CRN, String courseID, String courseName) {
-        preReq = new CourseSet();
-        coReq = new CourseSet();
-        this.CRN = CRN;
+    public Course(String crn, String courseID, String courseName) {
+        preRequisite = new CourseSet();
+        coRequisite = new CourseSet();
+        this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
     }
 
-    public Course(String CRN, String courseID, String courseName, String courseType) {
-        preReq = new CourseSet();
-        coReq = new CourseSet();
-        this.CRN = CRN;
+    public Course(String crn, String courseID, String courseName, String courseType) {
+        preRequisite = new CourseSet();
+        coRequisite = new CourseSet();
+        this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
 
-        if(courseType.equals("0") || courseType.equals("CRS") || courseType.equals("course") || courseType.equals("crs")){
+        if(courseType.equals("CRS")){
             this.courseType = CourseType.CRS;
         }
 
-        if(courseType.equals("1") || courseType.equals("LAB") || courseType.equals("laboratory") || courseType.equals("lab")){
+        if(courseType.equals("LAB")){
             this.courseType = CourseType.LAB;
         }
 
-        if(courseType.equals("0") || courseType.equals("TUT") || courseType.equals("tutorial") || courseType.equals("tut")){
+        if(courseType.equals("TUT")){
             this.courseType = CourseType.TUT;
         }
-
     }
 
 
-    public Course(String CRN, String courseID, String courseName, CourseSet preReq, CourseSet coReq) {
-        this.preReq = preReq;
-        this.coReq = coReq;
-        this.CRN = CRN;
+    public Course(String crn, String courseID, String courseName, CourseSet preRequisite, CourseSet coRequisite) {
+        this.preRequisite = preRequisite;
+        this.coRequisite = coRequisite;
+        this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
     }
 
-    public String getCRN() {
-        return CRN;
+    public String getcrn() {
+        return crn;
     }
 
-    public void setCRN(String CRN) {
-        this.CRN = CRN;
+    /**
+     * Sets the the CRN value (course registration number) which will be used as a primary key
+     * @param crn Course registration number used for a primary key
+     */
+    public void setcrn(String crn) {
+        this.crn = crn;
     }
 
+    /**
+     * Gets the course ID, i.e. "CSCI 1000"
+     * @return courseID a String
+     */
     public String getCourseID() {
 
         return courseID;
     }
 
+    /**
+     * Sets the course ID, i.e. "CSCI 1000"
+     * @param courseID String Value
+     */
     public void setCourseID(String courseID) {
         this.courseID = courseID;
     }
 
+    /**
+     * Gets the course Name i.e. "Integrated Studies"
+     * @return courseName, a String value
+     */
     public String getCourseName() {
         return courseName;
     }
 
+    /**
+     * Sets the course name, i.e. "Computer Science 1"
+     * @param courseName String value
+     */
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
@@ -96,7 +113,7 @@ public class Course {
      * @param course A course object.
      */
     public void addPrerequisite(Course course){
-        preReq.addCourse(course);
+        preRequisite.addCourse(course);
     }
 
     /**
@@ -104,15 +121,23 @@ public class Course {
      * @param course A course object.
      */
     public void addCorequisite(Course course){
-        coReq.addCourse(course);
+        coRequisite.addCourse(course);
     }
 
+    /**
+     * Gets the list of prerequisite courses.
+     * @return CourseSet a set of courses containing hashmap of prerequisite courses
+     */
     public CourseSet getPrerequisite(){
-        return preReq;
+        return preRequisite;
     }
 
+    /**
+     * Gets the list of corequisite courses.
+     * @return CourseSet a set of courses containing hashmap of corequisite courses
+     */
     public CourseSet getCorequisite(){
-        return coReq;
+        return coRequisite;
     }
 
 }

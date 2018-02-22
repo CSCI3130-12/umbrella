@@ -12,62 +12,62 @@ import java.util.Set;
  */
 
 public class CourseSet {
-    private HashMap<String, Course> courseSet;
+    private HashMap<String, Course> courses;
 
     public CourseSet() {
-        courseSet = new HashMap<>();
-
+        courses = new HashMap<>();
     }
 
-    public Collection<Course> getCourses(){
-        return courseSet.values();
+    public Collection<Course> getCoursesValues(){
+        return courses.values();
     }
 
     public  HashMap<String, Course> getCourseSet() {
-        return courseSet;
-    }
-
-    public void setCourseSet(HashMap<String, Course> courseSet) {
-        courseSet = courseSet;
+        return courses;
     }
 
     /**
-     * Adds a course to the hashmap using its CRN as the key.
+     * Sets courses to a new hashmap
+     * @param courses A hashmap of Hashmap<String, Course>
+     */
+    public void setCourses(HashMap<String, Course> courses) {
+        this.courses = courses;
+    }
+
+    /**
+     * Adds a course to the hashmap using its crn as the key.
      * @param course The course object to be added
      */
     public void addCourse(Course course){
-        courseSet.put(course.getCRN(), course);
-
+        courses.put(course.getcrn(), course);
     }
 
     /**
-     * Removes a course from the hashmap using its CRN as the key.
+     * Removes a course from the hashmap using its crn as the key.
      * @param course The course object to be added.
      */
     public void removeCourse(Course course){
-        courseSet.remove(course.getCRN());
+        courses.remove(course.getcrn());
     }
 
     /**
-     * Checks if the courseset has a course using it's CRN.
+     * Checks if the courseset has a course using it's crn.
      * @param course The course object to be searched for.
      * @return True if the course is in the set.
      */
     public boolean hasCourse(Course course){
-        boolean result = courseSet.containsKey(course.getCRN());
-
+        boolean result = courses.containsKey(course.getcrn());
         return result;
-
     }
 
     /**
-     * Finds a course object using it's CRN
-     * @param CRN
+     * Finds a course object using it's crn
+     * @param crn A course registration number that is used as a primary key in the DB
      * @return Course object
      */
-    public Course getCourseByCRN(String CRN ){
+    public Course getCourseByCrn(String crn ){
         Course course = new Course();
-        course = courseSet.get(CRN);
+        course = courses.get(crn);
         return course;
     }
 
@@ -82,7 +82,7 @@ public class CourseSet {
         }
 
         Set<String> intersectCourse = courseSet.getCourseSet().keySet();
-        Set<String> courseThisSet = this.courseSet.keySet();
+        Set<String> courseThisSet = this.courses.keySet();
 
         intersectCourse.retainAll(courseThisSet);
         return (!intersectCourse.isEmpty());
@@ -95,7 +95,7 @@ public class CourseSet {
      */
     public CourseSet intersectingCourses(CourseSet courseSet) {
         CourseSet missingCourses = new CourseSet();
-        String CRN;
+        String crn;
         Course course;
         try {
 
@@ -104,13 +104,13 @@ public class CourseSet {
             }
 
             Set<String> intersectCourses = courseSet.getCourseSet().keySet();
-            Set<String> courseThisSet = this.courseSet.keySet();
+            Set<String> courseThisSet = this.courses.keySet();
 
             Iterator<String> iter = courseThisSet.iterator();
 
             while (iter.hasNext()) {
-                CRN = iter.next();
-                course = this.getCourseByCRN(CRN);
+                crn = iter.next();
+                course = this.getCourseByCrn(crn);
                 missingCourses.addCourse(course);
             }
 
