@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void buttonPress(View view) {
-       /*EditText user = findViewById(R.id.userInput);
+        EditText user = findViewById(R.id.userInput);
         EditText pass = findViewById(R.id.passInput);
         String username = user.getText().toString(),
                 password = pass.getText().toString();
@@ -32,6 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             TextView output = findViewById(R.id.output);
             output.setText("Error, incorrect username or password");
-        }*/
+        }
     }
 }
