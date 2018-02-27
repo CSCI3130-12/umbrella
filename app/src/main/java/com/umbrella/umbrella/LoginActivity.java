@@ -1,5 +1,6 @@
 package com.umbrella.umbrella;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -28,7 +29,12 @@ public class LoginActivity extends AppCompatActivity {
                 password = pass.getText().toString();
 
         if (loginManager.login(username, password)) {
-            //TODO: Open activity for main page
+
+            String token = loginManager.generateToken();
+            ActiveUser activeUser = new ActiveUser(username,password,token);
+            Intent intent = new Intent(this,MainActivity.class);
+            intent.putExtra("USER", activeUser);
+            startActivity(intent);
         } else {
             TextView output = findViewById(R.id.output);
             output.setText("Error, incorrect username or password");

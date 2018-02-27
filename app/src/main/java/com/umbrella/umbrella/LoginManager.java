@@ -30,6 +30,10 @@ public class LoginManager {
         return false;
     }
 
+    public String generateToken(){
+        return "totallySecureRandomToken";
+    }
+
     public LoginManager(ArrayList<User> users) {
         this.users = users;
     }
