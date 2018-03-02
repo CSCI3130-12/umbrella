@@ -10,14 +10,11 @@ package com.umbrella.umbrella;
 
 public class CourseListingViewModel {
 
+    public String name;
+
     /** @return the displayable title of the course */
     @Override
     public String toString() {
-        return getName();
-    }
-
-    /** @return the displayable title of the course */
-    public String getName() {
-        return "Some course name";
+        return name;
     }
 }
