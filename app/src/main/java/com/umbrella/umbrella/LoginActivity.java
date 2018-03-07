@@ -23,8 +23,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void buttonPress(View view) {
-        EditText user = findViewById(R.id.userInput);
-        EditText pass = findViewById(R.id.passInput);
+        EditText user = findViewById(R.id.username);
+        EditText pass = findViewById(R.id.password);
         String username = user.getText().toString(),
                 password = pass.getText().toString();
 
