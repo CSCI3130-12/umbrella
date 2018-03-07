@@ -13,6 +13,9 @@ public class MainActivity extends AppCompatActivity {
         ActiveUser activeUser = intent.getParcelableExtra("USER");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent testingIntent = new Intent(this, RegistrationActivity.class);
+        startActivity(testingIntent);
     }
 
     public void logout(View view){

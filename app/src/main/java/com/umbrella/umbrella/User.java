@@ -5,7 +5,7 @@ package com.umbrella.umbrella;
  * A user class for storing general information about users.
  */
 
-public class User  {
+public class User {
     private String username;
     private String password;
 
