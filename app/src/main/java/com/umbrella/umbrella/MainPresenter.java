@@ -5,6 +5,7 @@ import java.util.Date;
 
 /**
  * Created by samdoiron on 2018-03-07.
+ * The presenter for the initial screen of the app.
  */
 
 public class MainPresenter {
@@ -16,6 +17,7 @@ public class MainPresenter {
         this.dateFormat = new SimpleDateFormat("MMMM d yyyy");
     }
 
+    /** @return the view model for the main screen */
     public MainViewModel getViewModel() {
         MainViewModel viewModel = new MainViewModel();
         viewModel.deadlineMessage = getDeadlineMessage();
