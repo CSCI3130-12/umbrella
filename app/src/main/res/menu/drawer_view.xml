@@ -9,7 +9,7 @@
             android:title="Add / drop courses" />
         <item
             android:id="@+id/nav_browse"
-            android:title="Browse Courses" />
+            android:title="Browse courses" />
     </group>
 </menu>
 

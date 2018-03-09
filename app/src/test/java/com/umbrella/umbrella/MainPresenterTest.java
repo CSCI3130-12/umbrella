@@ -24,7 +24,7 @@ public class MainPresenterTest {
 
            assertEquals("Registration ends on December 25 2018", viewModel.deadlineMessage);
         } catch (ParseException e) {
-            fail("Failed ot parse test date");
+            fail("Failed to parse test date");
         }
     }
 
@@ -40,7 +40,7 @@ public class MainPresenterTest {
 
             assertEquals("Registration ends on December 1 2018", viewModel.deadlineMessage);
         } catch (ParseException e) {
-            fail("Failed ot parse test date");
+            fail("Failed to parse test date");
         }
     }
 }

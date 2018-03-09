@@ -4,6 +4,8 @@ import java.util.Date;
 
 /**
  * Created by samdoiron on 2018-03-07.
+ * A fake registration info repo (storing metadata about registration.
+ * Intended for use in tests / during development.
  */
 
 public class FakeRegistrationInfoRepo implements RegistrationInfoRepo {
@@ -12,6 +14,8 @@ public class FakeRegistrationInfoRepo implements RegistrationInfoRepo {
     public FakeRegistrationInfoRepo(Date deadline) {
         this.deadline = deadline;
     }
+
+    /** Return the date when the registration period next ends */
     public Date getRegistrationDeadline() {
         return deadline;
     }
