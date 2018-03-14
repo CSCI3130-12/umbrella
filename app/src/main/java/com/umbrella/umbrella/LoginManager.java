@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 /**
  * Created by justin on 16/02/18.
- * Contains methods to manager user login
+ * Contains methods to manage user login
  */
 
 public class LoginManager {
@@ -17,6 +17,12 @@ public class LoginManager {
 
     }
 
+    /**
+     * Attempts to login with the given information
+     * @param username the users name
+     * @param password the users password
+     * @return a boolean indicating a successful login
+     */
     public boolean login(String username, String password) {
 
         for (User user : users) {
@@ -30,6 +36,10 @@ public class LoginManager {
         return false;
     }
 
+    /**
+     * Generates an auth token for the current user
+     * @return a string containing the auth token
+     */
     public String generateToken(){
         return "totallySecureRandomToken";
     }
