@@ -15,7 +15,7 @@ public class FakeRegistrationInfoRepo implements RegistrationInfoRepo {
         this.deadline = deadline;
     }
 
-    /** Return the date when the registration period next ends */
+    /** @return the date when the registration period next ends */
     public Date getRegistrationDeadline() {
         return deadline;
     }
