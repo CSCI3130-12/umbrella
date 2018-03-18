@@ -12,6 +12,10 @@ public class Course {
     private String crn;
     private String courseID;
     private String courseName;
+
+
+
+    private String description;
     public enum CourseType {
     CRS, TUT, LAB
     }
@@ -106,6 +110,22 @@ public class Course {
      */
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    /**
+     * Gets the description of the course
+     * @return description String
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the description of the course
+     * @param description The description
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.umbrella.umbrella;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -17,6 +19,7 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
+    FragmentManager manager;
     private DrawerLayout drawerLayout;
 
     MainPresenter presenter;
@@ -68,4 +71,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
