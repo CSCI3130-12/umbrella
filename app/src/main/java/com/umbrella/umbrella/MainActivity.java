@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        ActiveUser activeUser = intent.getParcelableExtra("USER");
         super.onCreate(savedInstanceState);
 
         FakeRegistrationInfoRepo infoRepo = new FakeRegistrationInfoRepo(new Date());
@@ -67,5 +70,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void logout(View view){
+        Intent intent = new Intent(this,LoginActivity.class);
+        startActivity(intent);
     }
 }

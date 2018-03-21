@@ -3,6 +3,7 @@ package com.umbrella.umbrella;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -13,38 +14,35 @@ import static org.junit.Assert.*;
  */
 
 public class LoginTest {
-    private static HashMap<String,String> users;
+    private static ArrayList<User> users;
+    private static LoginManager loginManager;
 
     @BeforeClass
     public static void init(){
         //hashmap of user/password combinations for temp database
-        users = new HashMap<>();
+        users = new ArrayList<>();
 
-        users.put("user1","pass1");
-        users.put("user2","pass2");
-        users.put("timothy","hunter2");
+        users.add(new User("user1","pass1"));
+        users.add(new User("user2","pass2"));
+        users.add(new User("timothy","hunter2"));
+        loginManager = new LoginManager(users);
 
-        LoginManager.initialiseDB(users);
-    }
-    @Test
-    public void verifyDB(){
-        assertEquals(users,LoginManager.getDB());
     }
 
     @Test
     public void incorrectLogin(){
-        assertFalse(LoginManager.login("blah","pass"));
+        assertFalse(loginManager.login("blah","pass"));
     }
 
     @Test
     public void correctLogin(){
-        assertTrue(LoginManager.login("user1","pass1"));
+        assertTrue(loginManager.login("user1","pass1"));
     }
 
     @Test
     public void verifyAllUsers() {
-        for(String user:users.keySet()){
-            LoginManager.login(user,users.get(user));
+        for(User user:users){
+            loginManager.login(user.getUsername(),user.getPassword());
         }
     }
 }
