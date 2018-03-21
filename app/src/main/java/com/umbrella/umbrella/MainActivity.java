@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.nav_browse) {
                     Intent myIntent = new Intent(MainActivity.this, RegistrationActivity.class);
                     startActivity(myIntent);
+                }else if(item.getItemId() == R.id.nav_logout){
+                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
 
                 return true;
@@ -70,10 +74,5 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void logout(View view){
-        Intent intent = new Intent(this,LoginActivity.class);
-        startActivity(intent);
     }
 }
