@@ -18,6 +18,14 @@ public class CourseSet {
         courses = new HashMap<>();
     }
 
+    public CourseSet(CourseSet other) {
+        courses = new HashMap<>();
+        for (Course course : other.courses.values()) {
+            Course clone = new Course(course);
+            courses.put(clone.getCRN(), clone);
+        }
+    }
+
     public Collection<Course> getCoursesValues(){
         return courses.values();
     }
@@ -39,7 +47,7 @@ public class CourseSet {
      * @param course The course object to be added
      */
     public void addCourse(Course course){
-        courses.put(course.getcrn(), course);
+        courses.put(course.getCRN(), course);
     }
 
     /**
@@ -47,7 +55,7 @@ public class CourseSet {
      * @param course The course object to be added.
      */
     public void removeCourse(Course course){
-        courses.remove(course.getcrn());
+        courses.remove(course.getCRN());
     }
 
     /**
@@ -56,7 +64,7 @@ public class CourseSet {
      * @return True if the course is in the set.
      */
     public boolean hasCourse(Course course){
-        boolean result = courses.containsKey(course.getcrn());
+        boolean result = courses.containsKey(course.getCRN());
         return result;
     }
 
@@ -119,5 +127,9 @@ public class CourseSet {
                 //System.out.println(E.getLocalizedMessage());
        }
         return missingCourses;
+    }
+
+    public int size() {
+        return courses.size();
     }
 }

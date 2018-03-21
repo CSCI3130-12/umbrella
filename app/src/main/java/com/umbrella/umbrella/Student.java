@@ -1,48 +1,49 @@
 package com.umbrella.umbrella;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-
 /**
  * Created by wauch on 2018-02-19.
  * A student class that extends user that has a list of courses that the user is signed up for
  */
 
 public class Student extends User {
+    private LectureLabSet registration;
+    private CourseSet creditsAcquired;
 
-
-    private CourseSet courseList;
-
-    public  Student(){
-        courseList = new CourseSet();
+    public Student() {
+        registration = new LectureLabSet();
     }
 
-    public CourseSet getCourseList() {
-        return courseList;
+    public Student(String username, String password, CourseSet creditsAcquired,
+                   LectureLabSet registration) {
+        setUsername(username);
+        setPassword(password);
+        this.registration = registration;
+        this.creditsAcquired = creditsAcquired;
     }
 
-    public void setCourseList(CourseSet courseList) {
-        this.courseList = courseList;
+    /** Deep-clone a student from another */
+    public Student(Student other) {
+        this.registration = new LectureLabSet(other.registration);
     }
-
-    public Student(String username, String password, CourseSet courseList){
-       setUsername(username);
-       setPassword(password);
-       this.courseList = courseList;
-   }
-
 
     /**
      * Checks if a student has a class in their registered classes.
-     * @param course The course object
+     * @param needle The lecture or lab to heck.
      * @return True if the course exists
      */
-    public boolean hasCourse(Course course) {
-        return courseList.hasCourse(course);
+    public boolean isRegisteredFor(LectureLab needle) {
+        return registration.contains(needle);
     }
 
-    public void addCourse(Course course) {
-        courseList.addCourse(course);
+    public boolean hasCreditForCourse(Course course) {
+        return false;
     }
 
+    public int getRegisteredCourseCount() {
+        return registration.size();
+    }
+
+    public void registerFor(LectureLab toRegisterFor) {
+        registration.add(toRegisterFor);
+    }
 }

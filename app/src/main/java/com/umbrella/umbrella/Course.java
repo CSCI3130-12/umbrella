@@ -12,6 +12,13 @@ public class Course {
     private String crn;
     private String courseID;
     private String courseName;
+
+    public Course(Course course) {
+        crn = course.crn;
+        courseID = course.courseID;
+        courseName = course.courseName;
+    }
+
     public enum CourseType {
     CRS, TUT, LAB
     }
@@ -63,7 +70,7 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public String getcrn() {
+    public String getCRN() {
         return crn;
     }
 
