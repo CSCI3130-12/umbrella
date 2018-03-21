@@ -16,6 +16,11 @@ public class User {
         this.password = password;
     }
 
+    public User(User other) {
+        this.username = other.username;
+        this.password = other.password;
+    }
+
     public void setUsername(String username){
         this.username = username;
     }

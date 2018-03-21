@@ -23,6 +23,7 @@ public class Student extends User {
 
     /** Deep-clone a student from another */
     public Student(Student other) {
+        super();
         this.registration = new LectureLabSet(other.registration);
     }
 
