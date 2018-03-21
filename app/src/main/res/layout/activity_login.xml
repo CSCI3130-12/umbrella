@@ -15,7 +15,8 @@
         android:layout_marginTop="150dp"
         android:ems="10"
         android:hint="Username"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"/>
+
 
     <EditText
         android:id="@+id/password"
@@ -45,5 +46,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="34dp"
+        android:onClick="buttonPress"
         android:text="Login" />
 </RelativeLayout>
