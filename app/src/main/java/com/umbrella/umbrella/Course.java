@@ -1,5 +1,6 @@
 package com.umbrella.umbrella;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
@@ -7,9 +8,9 @@ import java.util.LinkedList;
  * A course class that holds course-related information such as pre-requisites and IDs
  */
 
-public class Course {
+public class Course implements Serializable {
     /*To have attributes added as needed, modify after DB integration*/
-    private String crn;
+    private String cid;
     private String courseID;
     private String courseName;
 
@@ -30,45 +31,34 @@ public class Course {
         courseType = CourseType.CRS;
     }
 
-    public Course(String crn, String courseID, String courseName) {
+    public Course(String cid, String courseID, String courseName) {
         preRequisite = new CourseSet();
         coRequisite = new CourseSet();
-        this.crn = crn;
+        this.cid = cid;
         this.courseID = courseID;
         this.courseName = courseName;
     }
 
-    public Course(String crn, String courseID, String courseName, String courseType) {
+    public Course(String cid, String courseID, String courseName, String description) {
         preRequisite = new CourseSet();
         coRequisite = new CourseSet();
-        this.crn = crn;
+        this.cid = cid;
         this.courseID = courseID;
         this.courseName = courseName;
-
-        if(courseType.equals("CRS")){
-            this.courseType = CourseType.CRS;
-        }
-
-        if(courseType.equals("LAB")){
-            this.courseType = CourseType.LAB;
-        }
-
-        if(courseType.equals("TUT")){
-            this.courseType = CourseType.TUT;
-        }
+        this.description = description;
     }
 
-
-    public Course(String crn, String courseID, String courseName, CourseSet preRequisite, CourseSet coRequisite) {
+    public Course(String cid, String courseID, String courseName, String description, CourseSet preRequisite, CourseSet coRequisite) {
         this.preRequisite = preRequisite;
         this.coRequisite = coRequisite;
-        this.crn = crn;
+        this.cid = cid;
         this.courseID = courseID;
         this.courseName = courseName;
+        this.description = description;
     }
 
     public String getcrn() {
-        return crn;
+        return cid;
     }
 
     /**
@@ -76,7 +66,7 @@ public class Course {
      * @param crn Course registration number used for a primary key
      */
     public void setcrn(String crn) {
-        this.crn = crn;
+        this.cid = crn;
     }
 
     /**
