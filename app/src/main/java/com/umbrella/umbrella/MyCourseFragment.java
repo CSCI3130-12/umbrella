@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import java.util.Collection;
 
 
@@ -17,8 +16,6 @@ import java.util.Collection;
 public class MyCourseFragment extends Fragment {
 
     ViewCoursesPresenter presenter;
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,15 +52,13 @@ public class MyCourseFragment extends Fragment {
         CourseListingViewModel listings[] = new CourseListingViewModel[courses.size()];
         courses.toArray(listings);
 
-
-
         return new ArrayAdapter<>(
                 MyCourseFragment.this.getActivity(),
                 android.R.layout.simple_list_item_1,
                 listings
         );
     }
-
+    
     /**
      *
      * @return a CourseRepo for the current user

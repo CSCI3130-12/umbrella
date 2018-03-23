@@ -1,7 +1,6 @@
 package com.umbrella.umbrella;
 
 import android.content.Intent;
-
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.annotation.NonNull;
@@ -16,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import java.util.Date;
 
 
