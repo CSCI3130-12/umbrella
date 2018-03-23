@@ -14,7 +14,11 @@ public class LoginManager {
     private ArrayList<User> users;
 
     public LoginManager() {
+        users = new ArrayList<>();
 
+        users.add(new User("user1","pass1"));
+        users.add(new User("user2","pass2"));
+        users.add(new User("timothy","hunter2"));
     }
 
     /**
