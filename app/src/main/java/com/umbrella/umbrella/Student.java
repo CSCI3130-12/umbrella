@@ -6,11 +6,13 @@ package com.umbrella.umbrella;
  */
 
 public class Student extends User {
+    public final static int MAX_COURSES = 6;
     private LectureLabSet registration;
     private CourseSet creditsAcquired;
 
     public Student() {
         registration = new LectureLabSet();
+        creditsAcquired = new CourseSet();
     }
 
     public Student(String username, String password, CourseSet creditsAcquired,
@@ -25,6 +27,31 @@ public class Student extends User {
     public Student(Student other) {
         super();
         this.registration = new LectureLabSet(other.registration);
+        this.creditsAcquired = new CourseSet(other.creditsAcquired);
+    }
+
+    public boolean isValid() {
+        return registration.getCourseCount() <= MAX_COURSES
+                && hasRequiredLectureLabs()
+                && noLectureLabsAreFull();
+    }
+
+    private boolean noLectureLabsAreFull() {
+        for (LectureLab lectureLab : registration) {
+            if (lectureLab.isFull()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean hasRequiredLectureLabs() {
+        for (Course course : registration.getCourses()) {
+            if (!course.canBeTakenGiven(creditsAcquired, registration)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -41,10 +68,14 @@ public class Student extends User {
     }
 
     public int getRegisteredCourseCount() {
-        return registration.size();
+        return registration.getCourseCount();
     }
 
     public void registerFor(LectureLab toRegisterFor) {
         registration.add(toRegisterFor);
+    }
+
+    public void addCredit(Course course) {
+        creditsAcquired.addCourse(course);
     }
 }

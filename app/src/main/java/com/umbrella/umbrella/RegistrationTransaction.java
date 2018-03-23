@@ -7,8 +7,6 @@ import java.util.ArrayList;
  * registered courses leaves that set in a valid state.
  */
 public class RegistrationTransaction {
-    static final int MAX_CONCURRENT_COURSES = 6;
-
     final ArrayList<RegistrationOperation> operations;
     final Student originalStudent;
     Student workingStudent;
@@ -21,7 +19,7 @@ public class RegistrationTransaction {
 
     public boolean isValid() {
         performOperations();
-        return workingStudent.getRegisteredCourseCount() <= MAX_CONCURRENT_COURSES;
+        return workingStudent.isValid();
     }
 
     public void addOperation(RegistrationOperation operation) {

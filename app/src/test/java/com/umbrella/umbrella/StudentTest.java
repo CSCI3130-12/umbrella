@@ -7,7 +7,8 @@ import static org.junit.Assert.*;
 public class StudentTest {
     @Test
     public void canRegisterForLectureOrLab() throws DuplicateCourseException {
-        LectureLab lecture = new LectureLab("Neil Armstrong", "Moon");
+        Course astronomy = new Course("5555", "SPACE-101", "Astronomy");
+        LectureLab lecture = new LectureLab(astronomy, "Neil Armstrong", "Moon", 10, 5);
         Student student = new Student();
         student.registerFor(lecture);
         assertTrue(student.isRegisteredFor(lecture));
