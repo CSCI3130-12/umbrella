@@ -137,7 +137,4 @@ public class CourseRegisterTest {
         //test should result in course 3 being in the in the resulting intersection and hence true
         assertEquals (true, courseSet.nonIntersectingCourses(courseSet2).hasCourse(course3));
     }
-
-
-
 }
