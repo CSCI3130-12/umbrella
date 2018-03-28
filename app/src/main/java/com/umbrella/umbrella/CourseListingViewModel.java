@@ -10,6 +10,7 @@ package com.umbrella.umbrella;
 
 public class CourseListingViewModel {
 
+
     /** @return the displayable title of the course */
     @Override
     public String toString() {

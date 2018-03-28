@@ -1,5 +1,10 @@
 package com.umbrella.umbrella;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -16,8 +21,22 @@ public class ViewCoursesViewModel {
      *
      * @return The courses that should be displayed
      */
-    Collection<CourseListingViewModel> getCourses() {
-        ArrayList<CourseListingViewModel> courses = new ArrayList<>();
+    Collection<CourseListingViewModel> getCourses(DatabaseReference db) {
+        final ArrayList<CourseListingViewModel> courses = new ArrayList<>();
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    courses.add(new CourseListingViewModel());
+                }
+                RegistrationActivity.adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
         for (int i = 0; i < 1000; i++) {
             courses.add(new CourseListingViewModel());
         }

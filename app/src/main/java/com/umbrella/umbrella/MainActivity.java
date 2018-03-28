@@ -1,5 +1,6 @@
 package com.umbrella.umbrella;
 
+import android.app.Application;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,11 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
+    private ApplicationData appData;
+    private static RegistrationInfo infoRepo;
 
     MainPresenter presenter;
 
@@ -27,8 +32,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ActiveUser activeUser = intent.getParcelableExtra("USER");
         super.onCreate(savedInstanceState);
+        appData = (ApplicationData)getApplicationContext();
+        appData.firebaseDatabase= FirebaseDatabase.getInstance();
+        appData.dbReference=appData.firebaseDatabase.getReference();
 
-        FakeRegistrationInfoRepo infoRepo = new FakeRegistrationInfoRepo(new Date());
+        if(infoRepo==null)
+            infoRepo = new RegistrationInfo("Fall 2020",appData);
+
         presenter = new MainPresenter(infoRepo);
 
         setContentView(R.layout.activity_main);
@@ -46,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 item.setChecked(true);
                 drawerLayout.closeDrawers();
+                TextView deadlineText = (TextView) findViewById(R.id.registration_deadline);
+                deadlineText.setText(presenter.getViewModel().deadlineMessage);
 
                 if (item.getItemId() == R.id.nav_browse) {
                     Intent myIntent = new Intent(MainActivity.this, RegistrationActivity.class);

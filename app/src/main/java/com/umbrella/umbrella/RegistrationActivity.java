@@ -16,17 +16,23 @@ import java.util.Collection;
  */
 
 public class RegistrationActivity extends Activity {
-    ViewCoursesViewModel viewModel = new ViewCoursesViewModel();
-
+    ViewCoursesViewModel viewModel;
+    ApplicationData appData;
+    public static ArrayAdapter adapter;
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.registration);
-
+        appData= (ApplicationData) getApplicationContext();
+        viewModel = new ViewCoursesViewModel();
         ListView listView = (ListView)findViewById(R.id.course_list);
 
-        listView.setAdapter(dataAdapter());
+        adapter=dataAdapter();
+
+        listView.setAdapter(adapter);
     }
+
+
 
     /**
      * Adapts the course data provided by the view model into a form that the
@@ -34,7 +40,7 @@ public class RegistrationActivity extends Activity {
      * @return an ArrayAdapter that can be used with a list view.
      */
     ArrayAdapter dataAdapter() {
-        Collection<CourseListingViewModel> courses = viewModel.getCourses();
+        Collection<CourseListingViewModel> courses = viewModel.getCourses(appData.dbReference);
         CourseListingViewModel listings[] = new CourseListingViewModel[courses.size()];
         courses.toArray(listings);
 
