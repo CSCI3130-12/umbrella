@@ -9,7 +9,15 @@ package com.umbrella.umbrella;
  */
 
 public class CourseListingViewModel {
+    String name;
 
+    public CourseListingViewModel(){
+
+    }
+
+    public CourseListingViewModel(String n){
+        name = n;
+    }
 
     /** @return the displayable title of the course */
     @Override
@@ -19,6 +27,9 @@ public class CourseListingViewModel {
 
     /** @return the displayable title of the course */
     public String getName() {
-        return "Some course name";
+        if(name == null)
+            return "Loading courses...";
+        else
+            return name;
     }
 }

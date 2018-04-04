@@ -21,15 +21,16 @@ public class ViewCoursesViewModel {
      *
      * @return The courses that should be displayed
      */
-    Collection<CourseListingViewModel> getCourses(DatabaseReference db) {
+    ArrayList<CourseListingViewModel> getCourses(DatabaseReference db) {
         final ArrayList<CourseListingViewModel> courses = new ArrayList<>();
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-                    courses.add(new CourseListingViewModel());
+                RegistrationActivity.adapter.clear();
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    String name = data.child("Name").getValue(String.class);
+                    RegistrationActivity.adapter.add(new CourseListingViewModel(name));
                 }
-                RegistrationActivity.adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -37,9 +38,11 @@ public class ViewCoursesViewModel {
 
             }
         };
-        for (int i = 0; i < 1000; i++) {
-            courses.add(new CourseListingViewModel());
-        }
+        db = db.child("Semester").child("Courses").child("CourseList");
+        db.addValueEventListener(listener);
+
+        courses.add(new CourseListingViewModel());
+
         return courses;
     }
 }

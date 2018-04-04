@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -28,7 +29,6 @@ public class RegistrationActivity extends Activity {
         ListView listView = (ListView)findViewById(R.id.course_list);
 
         adapter=dataAdapter();
-
         listView.setAdapter(adapter);
     }
 
@@ -40,9 +40,7 @@ public class RegistrationActivity extends Activity {
      * @return an ArrayAdapter that can be used with a list view.
      */
     ArrayAdapter dataAdapter() {
-        Collection<CourseListingViewModel> courses = viewModel.getCourses(appData.dbReference);
-        CourseListingViewModel listings[] = new CourseListingViewModel[courses.size()];
-        courses.toArray(listings);
+        ArrayList<CourseListingViewModel> listings = viewModel.getCourses(appData.dbReference);
 
         return new ArrayAdapter<CourseListingViewModel>(
                 RegistrationActivity.this,

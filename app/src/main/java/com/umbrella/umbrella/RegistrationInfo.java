@@ -1,6 +1,7 @@
 package com.umbrella.umbrella;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +26,7 @@ public class RegistrationInfo implements RegistrationInfoRepo  {
     private DatabaseReference db;
 
 
-    public RegistrationInfo(String semester, ApplicationData data) {
+    public RegistrationInfo(final TextView text, ApplicationData data) {
         db=data.dbReference.child("Semester").child("Semester info").child("Registration dates").child("End");
 
         ValueEventListener listener = (new ValueEventListener() {
@@ -40,6 +41,7 @@ public class RegistrationInfo implements RegistrationInfoRepo  {
                 }
 
                 //Somehow trigger a UI update from here
+                text.setText(MainActivity.presenter.getViewModel().deadlineMessage);
             }
 
             @Override

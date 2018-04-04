@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private ApplicationData appData;
     private static RegistrationInfo infoRepo;
 
-    MainPresenter presenter;
+    public static MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +36,9 @@ public class MainActivity extends AppCompatActivity {
         appData.firebaseDatabase= FirebaseDatabase.getInstance();
         appData.dbReference=appData.firebaseDatabase.getReference();
 
-        if(infoRepo==null)
-            infoRepo = new RegistrationInfo("Fall 2020",appData);
 
-        presenter = new MainPresenter(infoRepo);
+
+
 
         setContentView(R.layout.activity_main);
 
@@ -56,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 item.setChecked(true);
                 drawerLayout.closeDrawers();
-                TextView deadlineText = (TextView) findViewById(R.id.registration_deadline);
-                deadlineText.setText(presenter.getViewModel().deadlineMessage);
 
                 if (item.getItemId() == R.id.nav_browse) {
                     Intent myIntent = new Intent(MainActivity.this, RegistrationActivity.class);
@@ -75,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
 
         TextView deadlineText = (TextView) findViewById(R.id.registration_deadline);
+
+        if(infoRepo==null)
+            infoRepo = new RegistrationInfo(deadlineText,appData);
+        presenter = new MainPresenter(infoRepo);
         deadlineText.setText(presenter.getViewModel().deadlineMessage);
     }
 
@@ -87,4 +88,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
