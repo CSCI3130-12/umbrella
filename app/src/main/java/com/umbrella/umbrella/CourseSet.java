@@ -11,18 +11,30 @@ import java.util.Set;
  * Used as an entity for use cases such as the student's list of courses.
  */
 
-public class CourseSet {
+public class CourseSet implements Iterable<Course> {
     private HashMap<String, Course> courses;
 
     public CourseSet() {
         courses = new HashMap<>();
     }
 
+    public CourseSet(CourseSet other) {
+        courses = new HashMap<>();
+        for (Course course : other.courses.values()) {
+            Course clone = new Course(course);
+            courses.put(clone.getCourseID(), clone);
+        }
+    }
+
+    public Iterator<Course> iterator() {
+        return courses.values().iterator();
+    }
+
     public Collection<Course> getCoursesValues(){
         return courses.values();
     }
 
-    public  HashMap<String, Course> getCourseSet() {
+    public HashMap<String, Course> getCourseSet() {
         return courses;
     }
 
@@ -38,16 +50,16 @@ public class CourseSet {
      * Adds a course to the hashmap using its crn as the key.
      * @param course The course object to be added
      */
-    public void addCourse(Course course){
-        courses.put(course.getcrn(), course);
+    public void addCourse(Course course) {
+        courses.put(course.getCourseID(), course);
     }
 
     /**
      * Removes a course from the hashmap using its crn as the key.
      * @param course The course object to be added.
      */
-    public void removeCourse(Course course){
-        courses.remove(course.getcrn());
+    public void removeCourse(Course course) {
+        courses.remove(course.getCourseID());
     }
 
     /**
@@ -56,7 +68,7 @@ public class CourseSet {
      * @return True if the course is in the set.
      */
     public boolean hasCourse(Course course){
-        boolean result = courses.containsKey(course.getcrn());
+        boolean result = courses.containsKey(course.getCourseID());
         return result;
     }
 
@@ -119,5 +131,13 @@ public class CourseSet {
                 //System.out.println(E.getLocalizedMessage());
        }
         return missingCourses;
+    }
+
+    public int size() {
+        return courses.size();
+    }
+
+    public boolean containsAll(CourseSet other) {
+        return courses.values().containsAll(other.courses.values());
     }
 }

@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(this,MainActivity.class);
             intent.putExtra("USER", activeUser);
             startActivity(intent);
+            this.finish();
         } else {
             TextView output = findViewById(R.id.output);
             output.setText("Error, incorrect username or password");
