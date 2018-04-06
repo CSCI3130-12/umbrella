@@ -1,5 +1,7 @@
 package com.umbrella.umbrella;
 
+import android.app.AuthenticationRequiredException;
+
 import java.util.LinkedList;
 
 /**
@@ -12,18 +14,37 @@ public class Course {
     private String crn;
     private String courseID;
     private String courseName;
-    public enum CourseType {
-    CRS, TUT, LAB
-    }
-    private CourseType courseType;
-    private String Faculty;
-    private CourseSet preRequisite;
-    private CourseSet coRequisite;
 
-    public Course(){
+    private final CourseSet preRequisite;
+    private final CourseSet coRequisite;
+    private RequiredLectureLabs requiredLectureLabs;
+
+    public Course() {
         preRequisite = new CourseSet();
         coRequisite = new CourseSet();
-        courseType = CourseType.CRS;
+        requiredLectureLabs = new RequiredLectureLabs();
+    }
+    public Course(Course course) {
+        crn = course.crn;
+        courseID = course.courseID;
+        courseName = course.courseName;
+        preRequisite = new CourseSet(course.preRequisite);
+        coRequisite = new CourseSet(course.coRequisite);
+        requiredLectureLabs = new RequiredLectureLabs(course.requiredLectureLabs);
+    }
+
+    public boolean canBeTakenWithCredits(CourseSet creditsAcquired) {
+        return creditsAcquired.containsAll(preRequisite);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return (other instanceof Course) && ((Course)other).courseID.equals(courseID);
+    }
+
+    @Override
+    public int hashCode() {
+        return courseID.hashCode();
     }
 
     public Course(String crn, String courseID, String courseName) {
@@ -32,6 +53,7 @@ public class Course {
         this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
+        requiredLectureLabs = new RequiredLectureLabs();
     }
 
     public Course(String crn, String courseID, String courseName, String courseType) {
@@ -40,18 +62,7 @@ public class Course {
         this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
-
-        if(courseType.equals("CRS")){
-            this.courseType = CourseType.CRS;
-        }
-
-        if(courseType.equals("LAB")){
-            this.courseType = CourseType.LAB;
-        }
-
-        if(courseType.equals("TUT")){
-            this.courseType = CourseType.TUT;
-        }
+        requiredLectureLabs = new RequiredLectureLabs();
     }
 
 
@@ -61,18 +72,11 @@ public class Course {
         this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
+        requiredLectureLabs = new RequiredLectureLabs();
     }
 
-    public String getcrn() {
+    public String getCRN() {
         return crn;
-    }
-
-    /**
-     * Sets the the CRN value (course registration number) which will be used as a primary key
-     * @param crn Course registration number used for a primary key
-     */
-    public void setcrn(String crn) {
-        this.crn = crn;
     }
 
     /**
@@ -140,4 +144,22 @@ public class Course {
         return coRequisite;
     }
 
+    public boolean canBeTakenGiven(CourseSet creditsAcquired, LectureLabSet registration) {
+        if (!creditsAcquired.containsAll(preRequisite)) {
+            return false;
+        }
+
+        for (Course coReq : coRequisite) {
+            if (!(creditsAcquired.hasCourse(coReq) || registration.hasCourse(coReq))) {
+                return false;
+            }
+        }
+
+        // Required lecture-labs
+        return requiredLectureLabs.isMetBy(registration);
+    }
+
+    public void setRequirements(RequiredLectureLabs requirements) {
+        this.requiredLectureLabs = requirements;
+    }
 }
