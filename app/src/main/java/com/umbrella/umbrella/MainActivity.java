@@ -23,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ApplicationData appData;
-    private static RegistrationInfo infoRepo;
-
     public static MainPresenter presenter;
 
     @Override
@@ -32,13 +30,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ActiveUser activeUser = intent.getParcelableExtra("USER");
         super.onCreate(savedInstanceState);
-        appData = (ApplicationData)getApplicationContext();
-        appData.firebaseDatabase= FirebaseDatabase.getInstance();
-        appData.dbReference=appData.firebaseDatabase.getReference();
-
-
-
-
+        appData = (ApplicationData) getApplicationContext();
+        appData.firebaseDatabase = FirebaseDatabase.getInstance();
+        appData.dbReference = appData.firebaseDatabase.getReference();
 
         setContentView(R.layout.activity_main);
 
@@ -59,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.nav_browse) {
                     Intent myIntent = new Intent(MainActivity.this, RegistrationActivity.class);
                     startActivity(myIntent);
-                }else if(item.getItemId() == R.id.nav_logout){
-                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                } else if (item.getItemId() == R.id.nav_logout) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -73,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
         TextView deadlineText = (TextView) findViewById(R.id.registration_deadline);
 
-        if(infoRepo==null)
-            infoRepo = new RegistrationInfo(deadlineText,appData);
+
+        RegistrationInfo infoRepo = new RegistrationInfo(deadlineText, appData);
         presenter = new MainPresenter(infoRepo);
         deadlineText.setText(presenter.getViewModel().deadlineMessage);
     }

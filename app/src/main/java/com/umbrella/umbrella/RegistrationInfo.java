@@ -19,44 +19,49 @@ import java.util.concurrent.Future;
 
 /**
  * Created by justin on 14/03/18.
+ * An implementation of the RegistrationInfoRepo which connects to the firebase db
+ * and asynchronously grabs the date deadline
  */
 
-public class RegistrationInfo implements RegistrationInfoRepo  {
+public class RegistrationInfo implements RegistrationInfoRepo {
     private Date deadline;
     private DatabaseReference db;
 
 
     public RegistrationInfo(final TextView text, ApplicationData data) {
-        db=data.dbReference.child("Semester").child("Semester info").child("Registration dates").child("End");
+        db = data.dbReference.child("Semester").child("Semester info").child("Registration dates").child("End");
 
-        ValueEventListener listener = (new ValueEventListener() {
+        ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String deadlineString = dataSnapshot.getValue(String.class);
                 try {
-                    deadline = new SimpleDateFormat("dd/mm/yyyy").parse(deadlineString);
+                    deadline = new SimpleDateFormat("dd/mm/yyyy", Locale.CANADA).parse(deadlineString);
                 } catch (ParseException e) {
-                    deadline=new Date();
+                    deadline = new Date();
                     e.printStackTrace();
                 }
 
-                //Somehow trigger a UI update from here
                 text.setText(MainActivity.presenter.getViewModel().deadlineMessage);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.println(Log.ERROR,"DB error","DB Error");
+                Log.println(Log.ERROR,"DB Error",databaseError.getMessage());
             }
-        });
+        };
 
         db.addListenerForSingleValueEvent(listener);
     }
 
 
-    @Override
-    public Date getRegistrationDeadline(){
 
+    /**
+     * Gets the stored deadline
+     * @return the deadline for the term
+     */
+    @Override
+    public Date getRegistrationDeadline() {
         return deadline;
     }
 }

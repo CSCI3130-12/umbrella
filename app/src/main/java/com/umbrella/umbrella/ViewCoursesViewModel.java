@@ -1,5 +1,7 @@
 package com.umbrella.umbrella;
 
+import android.util.Log;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +37,7 @@ public class ViewCoursesViewModel {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.println(Log.ERROR,"DB Error",databaseError.getMessage());
             }
         };
         db = db.child("Semester").child("Courses").child("CourseList");
