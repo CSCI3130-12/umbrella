@@ -9,15 +9,15 @@ package com.umbrella.umbrella;
  */
 
 public class CourseListingViewModel {
+    public final String name;
+
+    CourseListingViewModel(String name) {
+        this.name = name;
+    }
 
     /** @return the displayable title of the course */
     @Override
     public String toString() {
-        return getName();
-    }
-
-    /** @return the displayable title of the course */
-    public String getName() {
-        return "Some course name";
+        return name;
     }
 }

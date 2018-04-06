@@ -20,17 +20,19 @@ import java.util.Collection;
  */
 
 public class BrowseCoursesFragment extends Fragment {
-    ViewCoursesViewModel viewModel = new ViewCoursesViewModel();
     CourseRepo repo;
+    ViewCoursesPresenter presenter;
 
     public void setArguments(Bundle bundle) {
-        this.repo = (CourseRepo)bundle.get("courseRepo");
+        repo = (CourseRepo)bundle.get(MainActivity.COURSE_REPO);
+        presenter = new ViewCoursesPresenter(repo);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedBundleInstance) {
         View baseView = inflater.inflate(R.layout.registration, container, false);
         ListView listView = baseView.findViewById(R.id.course_list);
+        listView.setAdapter(dataAdapter());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -47,9 +49,9 @@ public class BrowseCoursesFragment extends Fragment {
      * @return an ArrayAdapter that can be used with a list view.
      */
     ArrayAdapter dataAdapter() {
-        Collection<CourseListingViewModel> courses = viewModel.getCourses();
-        CourseListingViewModel listings[] = new CourseListingViewModel[courses.size()];
-        courses.toArray(listings);
+        ViewCoursesViewModel viewModel = presenter.getViewModel();
+        CourseListingViewModel listings[] = new CourseListingViewModel[viewModel.courses.size()];
+        viewModel.courses.toArray(listings);
 
         return new ArrayAdapter<>(
                 getActivity().getApplicationContext(),

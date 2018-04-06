@@ -6,14 +6,14 @@ import android.app.Application;
  * Created by wauch on 2018-03-16.
  */
 
-public class CourseDetailViewModel extends Application{
+public class CourseDetailViewModel {
+    public final String id;
+    public final String name;
+    public final String description;
 
-    Course course;
-    MyApplicationData appState;
-    public CourseDetailViewModel() {
-        appState = new MyApplicationData("Course");
-        course = new Course("2000", "Example Course Name", "This course has a great example description");
+    CourseDetailViewModel(String id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
     }
-
-
 }

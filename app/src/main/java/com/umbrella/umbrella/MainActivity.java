@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager manager;
     private DrawerLayout drawerLayout;
 
+    public static final String COURSE_REPO = "courseRepo";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
@@ -87,9 +89,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchToBrowseCourses() {
-        switchToFragment(new BrowseCoursesFragment());
+        BrowseCoursesFragment fragment = new BrowseCoursesFragment();
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(COURSE_REPO, new FakeCourseRepo());
+        fragment.setArguments(arguments);
+        switchToFragment(fragment);
     }
-    public void switchToCourseDetails() {
+    public void switchToCourseDetails(Course course) {
+        CourseDetailViewFragment fragment = new CourseDetailViewFragment();
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(CourseDetailViewFragment.COURSE, course);
+        fragment.setArguments(arguments);
         switchToFragment(new CourseDetailViewFragment());
     }
 }

@@ -11,16 +11,12 @@ import java.util.Collection;
 
 public class ViewCoursesViewModel {
     /**
-     * Get the list of all course listing view models (unfiltered)
+     * The list of all course listing view models (unfiltered)
      * with a non-guaranteed order.
-     *
-     * @return The courses that should be displayed
      */
-    Collection<CourseListingViewModel> getCourses() {
-        ArrayList<CourseListingViewModel> courses = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
-            courses.add(new CourseListingViewModel());
-        }
-        return courses;
+    public final Collection<CourseListingViewModel> courses;
+
+    ViewCoursesViewModel(ArrayList<CourseListingViewModel> courses) {
+        this.courses = courses;
     }
 }
