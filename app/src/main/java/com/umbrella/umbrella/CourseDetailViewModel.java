@@ -12,7 +12,7 @@ public class CourseDetailViewModel extends Application{
     MyApplicationData appState;
     public CourseDetailViewModel() {
         appState = new MyApplicationData("Course");
-        course = new Course("1", "2000", "Example Course Name", "This course has a great example description");
+        course = new Course("2000", "Example Course Name", "This course has a great example description");
     }
 
 

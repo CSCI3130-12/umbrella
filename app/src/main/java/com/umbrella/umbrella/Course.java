@@ -1,6 +1,7 @@
 package com.umbrella.umbrella;
 
 import java.io.Serializable;
+import android.app.AuthenticationRequiredException;
 import java.util.LinkedList;
 
 /**
@@ -10,63 +11,63 @@ import java.util.LinkedList;
 
 public class Course implements Serializable {
     /*To have attributes added as needed, modify after DB integration*/
-    private String cid;
     private String courseID;
     private String courseName;
-
-
-
     private String description;
-    public enum CourseType {
-    CRS, TUT, LAB
-    }
-    private CourseType courseType;
-    private String Faculty;
-    private CourseSet preRequisite;
-    private CourseSet coRequisite;
+    private final CourseSet preRequisite;
+    private final CourseSet coRequisite;
+    private RequiredLectureLabs requiredLectureLabs;
 
-    public Course(){
+    public Course() {
         preRequisite = new CourseSet();
         coRequisite = new CourseSet();
-        courseType = CourseType.CRS;
+        requiredLectureLabs = new RequiredLectureLabs();
+    }
+    public Course(Course course) {
+        courseID = course.courseID;
+        courseName = course.courseName;
+        preRequisite = new CourseSet(course.preRequisite);
+        coRequisite = new CourseSet(course.coRequisite);
+        requiredLectureLabs = new RequiredLectureLabs(course.requiredLectureLabs);
     }
 
-    public Course(String cid, String courseID, String courseName) {
+    public boolean canBeTakenWithCredits(CourseSet creditsAcquired) {
+        return creditsAcquired.containsAll(preRequisite);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return (other instanceof Course) && ((Course)other).courseID.equals(courseID);
+    }
+
+    @Override
+    public int hashCode() {
+        return courseID.hashCode();
+    }
+
+    public Course(String courseID, String courseName) {
         preRequisite = new CourseSet();
         coRequisite = new CourseSet();
-        this.cid = cid;
         this.courseID = courseID;
         this.courseName = courseName;
+        requiredLectureLabs = new RequiredLectureLabs();
     }
 
-    public Course(String cid, String courseID, String courseName, String description) {
+    public Course(String courseID, String courseName, String description) {
         preRequisite = new CourseSet();
         coRequisite = new CourseSet();
-        this.cid = cid;
         this.courseID = courseID;
         this.courseName = courseName;
         this.description = description;
+        requiredLectureLabs = new RequiredLectureLabs();
     }
 
-    public Course(String cid, String courseID, String courseName, String description, CourseSet preRequisite, CourseSet coRequisite) {
+    public Course(String courseID, String courseName, String description, CourseSet preRequisite, CourseSet coRequisite) {
         this.preRequisite = preRequisite;
         this.coRequisite = coRequisite;
-        this.cid = cid;
         this.courseID = courseID;
         this.courseName = courseName;
         this.description = description;
-    }
-
-    public String getcrn() {
-        return cid;
-    }
-
-    /**
-     * Sets the the CRN value (course registration number) which will be used as a primary key
-     * @param crn Course registration number used for a primary key
-     */
-    public void setcrn(String crn) {
-        this.cid = crn;
     }
 
     /**
@@ -74,7 +75,6 @@ public class Course implements Serializable {
      * @return courseID a String
      */
     public String getCourseID() {
-
         return courseID;
     }
 
@@ -150,4 +150,22 @@ public class Course implements Serializable {
         return coRequisite;
     }
 
+    public boolean canBeTakenGiven(CourseSet creditsAcquired, LectureLabSet registration) {
+        if (!creditsAcquired.containsAll(preRequisite)) {
+            return false;
+        }
+
+        for (Course coReq : coRequisite) {
+            if (!(creditsAcquired.hasCourse(coReq) || registration.hasCourse(coReq))) {
+                return false;
+            }
+        }
+
+        // Required lecture-labs
+        return requiredLectureLabs.isMetBy(registration);
+    }
+
+    public void setRequirements(RequiredLectureLabs requirements) {
+        this.requiredLectureLabs = requirements;
+    }
 }

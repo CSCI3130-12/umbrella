@@ -1,48 +1,81 @@
 package com.umbrella.umbrella;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-
 /**
  * Created by wauch on 2018-02-19.
  * A student class that extends user that has a list of courses that the user is signed up for
  */
 
 public class Student extends User {
+    public final static int MAX_COURSES = 6;
+    private LectureLabSet registration;
+    private CourseSet creditsAcquired;
 
-
-    private CourseSet courseList;
-
-    public  Student(){
-        courseList = new CourseSet();
+    public Student() {
+        registration = new LectureLabSet();
+        creditsAcquired = new CourseSet();
     }
 
-    public CourseSet getCourseList() {
-        return courseList;
+    public Student(String username, String password, CourseSet creditsAcquired,
+                   LectureLabSet registration) {
+        setUsername(username);
+        setPassword(password);
+        this.registration = registration;
+        this.creditsAcquired = creditsAcquired;
     }
 
-    public void setCourseList(CourseSet courseList) {
-        this.courseList = courseList;
+    /** Deep-clone a student from another */
+    public Student(Student other) {
+        super();
+        this.registration = new LectureLabSet(other.registration);
+        this.creditsAcquired = new CourseSet(other.creditsAcquired);
     }
 
-    public Student(String username, String password, CourseSet courseList){
-       setUsername(username);
-       setPassword(password);
-       this.courseList = courseList;
-   }
+    public boolean isValid() {
+        return registration.getCourseCount() <= MAX_COURSES
+                && hasRequiredLectureLabs()
+                && noLectureLabsAreFull();
+    }
 
+    private boolean noLectureLabsAreFull() {
+        for (LectureLab lectureLab : registration) {
+            if (lectureLab.isFull()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean hasRequiredLectureLabs() {
+        for (Course course : registration.getCourses()) {
+            if (!course.canBeTakenGiven(creditsAcquired, registration)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Checks if a student has a class in their registered classes.
-     * @param course The course object
+     * @param needle The lecture or lab to heck.
      * @return True if the course exists
      */
-    public boolean hasCourse(Course course) {
-        return courseList.hasCourse(course);
+    public boolean isRegisteredFor(LectureLab needle) {
+        return registration.contains(needle);
     }
 
-    public void addCourse(Course course) {
-        courseList.addCourse(course);
+    public boolean hasCreditForCourse(Course course) {
+        return false;
     }
 
+    public int getRegisteredCourseCount() {
+        return registration.getCourseCount();
+    }
+
+    public void registerFor(LectureLab toRegisterFor) {
+        registration.add(toRegisterFor);
+    }
+
+    public void addCredit(Course course) {
+        creditsAcquired.addCourse(course);
+    }
 }
