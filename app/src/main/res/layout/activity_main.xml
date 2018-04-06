@@ -25,20 +25,10 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_constraintBottom_toTopOf="@+id/registration_deadline" />
 
-        <TextView
-            android:id="@+id/registration_deadline"
-            android:layout_width="wrap_content"
+        <LinearLayout android:id="@+id/fragment_container"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif-medium"
-            android:text=""
-            android:padding="16dp"
-            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.6" />
+            android:layout_width="wrap_content">
+        </LinearLayout>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

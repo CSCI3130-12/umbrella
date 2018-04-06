@@ -1,10 +1,10 @@
 package com.umbrella.umbrella;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -22,15 +21,10 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager manager;
     private DrawerLayout drawerLayout;
 
-    MainPresenter presenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        FakeRegistrationInfoRepo infoRepo = new FakeRegistrationInfoRepo(new Date());
-        presenter = new MainPresenter(infoRepo);
-
+        manager = getSupportFragmentManager();
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -40,16 +34,23 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_container, new StartFragment());
+        transaction.commit();
+
         NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                item.setChecked(true);
                 drawerLayout.closeDrawers();
 
-                if (item.getItemId() == R.id.nav_browse) {
-                    Intent myIntent = new Intent(MainActivity.this, RegistrationActivity.class);
-                    startActivity(myIntent);
+                switch (item.getItemId()) {
+                    case R.id.nav_add_drop:
+                        switchToBrowseCourses();
+                        break;
+                    case R.id.nav_main:
+                        switchToHome();
+                        break;
                 }
 
                 return true;
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
 
         TextView deadlineText = (TextView) findViewById(R.id.registration_deadline);
-        deadlineText.setText(presenter.getViewModel().deadlineMessage);
     }
 
     @Override
@@ -72,4 +72,22 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void switchToFragment(Fragment fragment) {
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
+    }
+
+    public void switchToHome() {
+        switchToFragment(new StartFragment());
+    }
+
+    public void switchToBrowseCourses() {
+        switchToFragment(new BrowseCoursesFragment());
+    }
+    public void switchToCourseDetails() {
+        switchToFragment(new CourseDetailViewFragment());
+    }
 }

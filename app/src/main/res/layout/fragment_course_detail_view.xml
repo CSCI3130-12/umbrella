@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:hint="Name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:text="Software Engineering"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textSize="24sp"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,11 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:hint="Course ID"
-        android:textStyle="bold"
+        android:text="CSCI 3130"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/course_detail_name" />
-
 
     <TextView
         android:id="@+id/course_detail_description"
@@ -36,7 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="12dp"
-        android:hint="Description"
+        android:lineSpacingMultiplier="1.4"
+        android:text="The class examines the process of software development, from initial planning through implementation and maintenance. A brief survey of available tools and techniques will be presented covering the topics of analysis, planning, estimating, project management, design, testing, and evaluation. Particular emphasis will be given to organizing and planning, team participation and management, top-down design and structure charts, system and information flow diagrams, walk-throughs and peer review, and testing and quality control."
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/course_detail_course_id" />

@@ -13,30 +13,17 @@ import android.support.v7.app.AppCompatActivity;
 public class CourseDetailViewFragment extends Fragment {
 
     public CourseDetailViewFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //setContentView(R.layout.fragment_course_detail_view);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_course_detail_view, container, false);
         prepareView(view);
         return view;
     }
 
     public void prepareView(View view){
-
-
     }
-
-
-
 
 }
