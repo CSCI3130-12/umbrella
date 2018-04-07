@@ -14,7 +14,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: copy google services
-          command: echo $GOOGLE_SERVICES | base64 --decode > ~/$CIRCLE_PROJECT_REPONAME/app/google-services.json
+          command: echo $GOOGLE_SERVICES | base64 --decode > ~/code/circleci/app/google-services.json
       - run:
           name: chmod permissions
           command: chmod +x ./gradlew
