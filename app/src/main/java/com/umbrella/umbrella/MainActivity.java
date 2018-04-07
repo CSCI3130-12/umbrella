@@ -45,15 +45,20 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
         NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navView.bringToFront();
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
                 item.setChecked(true);
                 drawerLayout.closeDrawers();
 
                 if (item.getItemId() == R.id.nav_browse) {
                     Intent myIntent = new Intent(MainActivity.this, RegistrationActivity.class);
                     startActivity(myIntent);
+                }else if(item.getItemId() == R.id.nav_view_my_courses){
+                    showMyCoursesFragment();
                 }else if(item.getItemId() == R.id.nav_logout){
                     Intent intent = new Intent(MainActivity.this,LoginActivity.class);
                     startActivity(intent);
@@ -85,11 +90,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.add(R.id.fragment,new MyCourseFragment(), "MyCourses");
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    public void logout(View view){
-        Intent intent = new Intent(this,LoginActivity.class);
-        startActivity(intent);
     }
 
 }
