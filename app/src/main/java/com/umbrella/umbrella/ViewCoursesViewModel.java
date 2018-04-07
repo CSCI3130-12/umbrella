@@ -1,5 +1,12 @@
 package com.umbrella.umbrella;
 
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -16,11 +23,28 @@ public class ViewCoursesViewModel {
      *
      * @return The courses that should be displayed
      */
-    Collection<CourseListingViewModel> getCourses() {
-        ArrayList<CourseListingViewModel> courses = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
-            courses.add(new CourseListingViewModel());
-        }
+    ArrayList<CourseListingViewModel> getCourses(DatabaseReference db) {
+        final ArrayList<CourseListingViewModel> courses = new ArrayList<>();
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                RegistrationActivity.adapter.clear();
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    String name = data.child("Name").getValue(String.class);
+                    RegistrationActivity.adapter.add(new CourseListingViewModel(name));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.println(Log.ERROR,"DB Error",databaseError.getMessage());
+            }
+        };
+        db = db.child("Semester").child("Courses").child("CourseList");
+        db.addValueEventListener(listener);
+
+        courses.add(new CourseListingViewModel());
+
         return courses;
     }
 }

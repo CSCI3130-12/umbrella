@@ -25,7 +25,11 @@ public class MainPresenter {
     }
 
     private String getDeadlineMessage() {
-        String dateString = dateFormat.format(repo.getRegistrationDeadline());
+        Date deadline = repo.getRegistrationDeadline();
+        if(deadline==null){
+            return "Loading...";
+        }
+        String dateString = dateFormat.format(deadline);
         return "Registration ends on " + dateString;
     }
 }

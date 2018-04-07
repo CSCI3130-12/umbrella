@@ -1,5 +1,6 @@
 package com.umbrella.umbrella;
 
+import android.app.Application;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,22 +15,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-
-    MainPresenter presenter;
+    private ApplicationData appData;
+    public static MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         ActiveUser activeUser = intent.getParcelableExtra("USER");
         super.onCreate(savedInstanceState);
-
-        FakeRegistrationInfoRepo infoRepo = new FakeRegistrationInfoRepo(new Date());
-        presenter = new MainPresenter(infoRepo);
+        appData = (ApplicationData) getApplicationContext();
+        appData.firebaseDatabase = FirebaseDatabase.getInstance();
+        appData.dbReference = appData.firebaseDatabase.getReference();
 
         setContentView(R.layout.activity_main);
 
@@ -50,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.nav_browse) {
                     Intent myIntent = new Intent(MainActivity.this, RegistrationActivity.class);
                     startActivity(myIntent);
-                }else if(item.getItemId() == R.id.nav_logout){
-                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                } else if (item.getItemId() == R.id.nav_logout) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -63,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
 
         TextView deadlineText = (TextView) findViewById(R.id.registration_deadline);
+
+
+        RegistrationInfo infoRepo = new RegistrationInfo(deadlineText, appData);
+        presenter = new MainPresenter(infoRepo);
         deadlineText.setText(presenter.getViewModel().deadlineMessage);
     }
 
@@ -75,4 +82,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

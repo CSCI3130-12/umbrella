@@ -9,6 +9,22 @@ package com.umbrella.umbrella;
  */
 
 public class CourseListingViewModel {
+    String name;
+
+    /**
+     * Empty constructor used to create a ViewModel with a Null name
+     */
+    public CourseListingViewModel(){
+
+    }
+
+    /**
+     * Constructor used when generating a new course
+     * @param n the name to set for the course
+     */
+    public CourseListingViewModel(String n){
+        name = n;
+    }
 
     /** @return the displayable title of the course */
     @Override
@@ -18,6 +34,9 @@ public class CourseListingViewModel {
 
     /** @return the displayable title of the course */
     public String getName() {
-        return "Some course name";
+        if(name == null)
+            return "Loading courses...";
+        else
+            return name;
     }
 }
