@@ -17,6 +17,7 @@ import java.util.Collection;
  */
 
 public class ViewCoursesViewModel {
+
     /**
      * Get the list of all course listing view models (unfiltered)
      * with a non-guaranteed order.
@@ -47,4 +48,5 @@ public class ViewCoursesViewModel {
 
         return courses;
     }
+
 }

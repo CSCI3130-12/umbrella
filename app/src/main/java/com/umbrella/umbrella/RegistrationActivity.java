@@ -16,13 +16,19 @@ import java.util.Collection;
  */
 
 public class RegistrationActivity extends Activity {
+
+    ViewCoursesPresenter presenter;
     ViewCoursesViewModel viewModel;
     ApplicationData appData;
     public static ArrayAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        presenter = new ViewCoursesPresenter(getCourseRepo());
+        presenter.refreshData();
+
         setContentView(R.layout.registration);
         appData = (ApplicationData) getApplicationContext();
         viewModel = new ViewCoursesViewModel();
@@ -40,12 +46,22 @@ public class RegistrationActivity extends Activity {
      * @return an ArrayAdapter that can be used with a list view.
      */
     ArrayAdapter dataAdapter() {
+
         ArrayList<CourseListingViewModel> listings = viewModel.getCourses(appData.dbReference);
 
-        return new ArrayAdapter<CourseListingViewModel>(
+        return new ArrayAdapter<>(
                 RegistrationActivity.this,
                 android.R.layout.simple_list_item_1,
                 listings
         );
+    }
+
+    private CourseRepo getCourseRepo() {
+        CourseSet courses = new CourseSet();
+        for (int i = 0; i < 10; i++) {
+            // 💩
+            courses.addCourse(new Course(Integer.toString(i), "CSCI" + (int)(Math.random() * 9999), "Computer Science " + i));
+        }
+        return new FakeCourseRepo(courses);
     }
 }
