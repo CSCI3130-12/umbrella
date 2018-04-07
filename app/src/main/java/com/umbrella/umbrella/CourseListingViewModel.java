@@ -26,8 +26,6 @@ public class CourseListingViewModel {
         name = n;
     }
 
-    public String name;
-
     /** @return the displayable title of the course */
     @Override
     public String toString() {

@@ -17,7 +17,7 @@ import java.util.Collection;
  */
 
 public class ViewCoursesViewModel {
-
+    public  ArrayList<CourseListingViewModel> courses;
     /**
      * Get the list of all course listing view models (unfiltered)
      * with a non-guaranteed order.
