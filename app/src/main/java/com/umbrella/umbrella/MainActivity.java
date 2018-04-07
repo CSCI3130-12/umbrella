@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     FragmentManager manager;
 
     private DrawerLayout drawerLayout;
+    private NavigationView navView;
 
     MainPresenter presenter;
 
@@ -44,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
-        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
-        navView.bringToFront();
+        navView = (NavigationView) findViewById(R.id.nav_view);
+
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
         {
             @Override
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 item.setChecked(true);
                 drawerLayout.closeDrawers();
+                manager.popBackStack();
 
                 if (item.getItemId() == R.id.nav_browse) {
                     Intent myIntent = new Intent(MainActivity.this, RegistrationActivity.class);
@@ -75,8 +77,14 @@ public class MainActivity extends AppCompatActivity {
         deadlineText.setText(presenter.getViewModel().deadlineMessage);
     }
 
+    /**
+     * The method triggered when an option item is selected
+     * @param item The item that has been selected
+     * @return True if home was selected, otherwise passes it to the super method
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        navView.bringToFront();
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);

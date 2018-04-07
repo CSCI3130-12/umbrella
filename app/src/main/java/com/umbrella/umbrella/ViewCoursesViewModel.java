@@ -10,5 +10,6 @@ import java.util.Collection;
  */
 
 public class ViewCoursesViewModel {
+
     public ArrayList<CourseListingViewModel> courses;
 }
