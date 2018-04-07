@@ -14,7 +14,7 @@ public class ViewCoursesViewModel {
      * The list of all course listing view models (unfiltered)
      * with a non-guaranteed order.
      */
-    public final Collection<CourseListingViewModel> courses;
+    public final ArrayList<CourseListingViewModel> courses;
 
     ViewCoursesViewModel(ArrayList<CourseListingViewModel> courses) {
         this.courses = courses;

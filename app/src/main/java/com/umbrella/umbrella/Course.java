@@ -168,4 +168,8 @@ public class Course implements Serializable {
     public void setRequirements(RequiredLectureLabs requirements) {
         this.requiredLectureLabs = requirements;
     }
+
+    public LectureLabSet getLectures() {
+        return requiredLectureLabs.requiredLectures;
+    }
 }

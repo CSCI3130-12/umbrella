@@ -5,16 +5,21 @@ package com.umbrella.umbrella;
  */
 
 enum DayOfWeek {
-    Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-    Saturday,
-    Sunday
+    MONDAY,
+    TUESDAY,
+    WEDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY
 }
 
 class LectureLabTime {
     public TimeOfDay timeOfDay;
     public DayOfWeek day;
+
+    public LectureLabTime(TimeOfDay timeOfDay, DayOfWeek dayOfWeek) {
+        this.timeOfDay = timeOfDay;
+        this.day = dayOfWeek;
+    }
 }

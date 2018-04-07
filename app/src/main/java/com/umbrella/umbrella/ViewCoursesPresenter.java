@@ -22,6 +22,6 @@ public class ViewCoursesPresenter {
     }
 
     private CourseListingViewModel forCourse(Course course) {
-        return new CourseListingViewModel(course.getCourseName());
+        return new CourseListingViewModel(course.getCourseID(), course.getCourseName());
     }
 }

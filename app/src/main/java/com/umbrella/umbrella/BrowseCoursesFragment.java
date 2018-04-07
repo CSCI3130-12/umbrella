@@ -22,6 +22,7 @@ import java.util.Collection;
 public class BrowseCoursesFragment extends Fragment {
     CourseRepo repo;
     ViewCoursesPresenter presenter;
+    ViewCoursesViewModel viewModel;
 
     public void setArguments(Bundle bundle) {
         repo = (CourseRepo)bundle.get(MainActivity.COURSE_REPO);
@@ -34,10 +35,14 @@ public class BrowseCoursesFragment extends Fragment {
         ListView listView = baseView.findViewById(R.id.course_list);
         listView.setAdapter(dataAdapter());
 
+        updateViewModel();
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((MainActivity)getActivity()).switchToCourseDetails();
+                CourseListingViewModel clickedVM = viewModel.courses.get(position);
+                Course clickedCourse = repo.getCourse(clickedVM.id);
+                ((MainActivity)getActivity()).switchToCourseDetails(clickedCourse);
             }
         });
         return baseView;
@@ -49,7 +54,7 @@ public class BrowseCoursesFragment extends Fragment {
      * @return an ArrayAdapter that can be used with a list view.
      */
     ArrayAdapter dataAdapter() {
-        ViewCoursesViewModel viewModel = presenter.getViewModel();
+        updateViewModel();
         CourseListingViewModel listings[] = new CourseListingViewModel[viewModel.courses.size()];
         viewModel.courses.toArray(listings);
 
@@ -58,5 +63,9 @@ public class BrowseCoursesFragment extends Fragment {
                 android.R.layout.simple_list_item_1,
                 listings
         );
+    }
+
+    private void updateViewModel() {
+        viewModel = presenter.getViewModel();
     }
 }

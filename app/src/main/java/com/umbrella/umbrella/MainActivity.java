@@ -91,15 +91,15 @@ public class MainActivity extends AppCompatActivity {
     public void switchToBrowseCourses() {
         BrowseCoursesFragment fragment = new BrowseCoursesFragment();
         Bundle arguments = new Bundle();
-        arguments.putParcelable(COURSE_REPO, new FakeCourseRepo());
+        arguments.putSerializable(COURSE_REPO, new FakeCourseRepo());
         fragment.setArguments(arguments);
         switchToFragment(fragment);
     }
     public void switchToCourseDetails(Course course) {
         CourseDetailViewFragment fragment = new CourseDetailViewFragment();
         Bundle arguments = new Bundle();
-        arguments.putParcelable(CourseDetailViewFragment.COURSE, course);
+        arguments.putSerializable(CourseDetailViewFragment.COURSE, course);
         fragment.setArguments(arguments);
-        switchToFragment(new CourseDetailViewFragment());
+        switchToFragment(fragment);
     }
 }

@@ -6,4 +6,5 @@ package com.umbrella.umbrella;
 
 interface CourseRepo {
     public CourseSet getAllCourses();
+    public Course getCourse(String courseID);
 }

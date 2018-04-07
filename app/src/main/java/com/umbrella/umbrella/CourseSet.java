@@ -75,13 +75,11 @@ public class CourseSet implements Collection<Course>, Iterable<Course> {
 
     /**
      * Finds a course object using it's crn
-     * @param crn A course registration number that is used as a primary key in the DB
+     * @param id A course id (eg. CSCI-1234)
      * @return Course object
      */
-    public Course getCourseByCrn(String crn ){
-        Course course = new Course();
-        course = courses.get(crn);
-        return course;
+    public Course getCourseByID(String id) {
+        return courses.get(id);
     }
 
     /**
@@ -123,7 +121,7 @@ public class CourseSet implements Collection<Course>, Iterable<Course> {
 
             while (iter.hasNext()) {
                 crn = iter.next();
-                course = this.getCourseByCrn(crn);
+                course = this.getCourseByID(crn);
                 missingCourses.addCourse(course);
             }
 
@@ -150,12 +148,6 @@ public class CourseSet implements Collection<Course>, Iterable<Course> {
     @Override
     public boolean contains(Object needle) {
         return needle instanceof Course && hasCourse((Course) needle);
-    }
-
-    @NonNull
-    @Override
-    public Iterator<Course> iterator() {
-        return courses.values().iterator();
     }
 
     @NonNull

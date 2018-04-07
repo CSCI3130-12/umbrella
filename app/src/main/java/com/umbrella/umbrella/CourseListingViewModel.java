@@ -10,8 +10,10 @@ package com.umbrella.umbrella;
 
 public class CourseListingViewModel {
     public final String name;
+    public final String id;
 
-    CourseListingViewModel(String name) {
+    CourseListingViewModel(String id, String name) {
+        this.id = id;
         this.name = name;
     }
 
