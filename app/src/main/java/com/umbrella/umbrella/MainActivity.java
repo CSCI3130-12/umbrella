@@ -1,5 +1,6 @@
 package com.umbrella.umbrella;
 
+import android.app.Application;
 import android.content.Intent;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -15,6 +16,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Date;
 
 
@@ -24,16 +29,17 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navView;
 
-    MainPresenter presenter;
+    private ApplicationData appData;
+    public static MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         ActiveUser activeUser = intent.getParcelableExtra("USER");
         super.onCreate(savedInstanceState);
-
-        FakeRegistrationInfoRepo infoRepo = new FakeRegistrationInfoRepo(new Date());
-        presenter = new MainPresenter(infoRepo);
+        appData = (ApplicationData) getApplicationContext();
+        appData.firebaseDatabase = FirebaseDatabase.getInstance();
+        appData.dbReference = appData.firebaseDatabase.getReference();
 
         setContentView(R.layout.activity_main);
         manager = getFragmentManager();
@@ -59,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 if (item.getItemId() == R.id.nav_browse) {
                     Intent myIntent = new Intent(MainActivity.this, RegistrationActivity.class);
                     startActivity(myIntent);
+
                 }else if(item.getItemId() == R.id.nav_view_my_courses){
                     showMyCoursesFragment();
                 }else if(item.getItemId() == R.id.nav_logout){
@@ -74,6 +81,10 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
 
         TextView deadlineText = (TextView) findViewById(R.id.registration_deadline);
+
+
+        RegistrationInfo infoRepo = new RegistrationInfo(deadlineText, appData);
+        presenter = new MainPresenter(infoRepo);
         deadlineText.setText(presenter.getViewModel().deadlineMessage);
     }
 
@@ -93,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Creates a transaction for the ViewMyCourses fragment and pushes it to the stack
+     */
     public void showMyCoursesFragment(){
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fragment,new MyCourseFragment(), "MyCourses");
