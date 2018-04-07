@@ -31,7 +31,11 @@ public class LoginActivity extends AppCompatActivity {
         loginManager = new LoginManager(db);
     }
 
-    public void buttonPress(View view) {
+    /**
+     * A button press event triggered upon the login button being pressed
+     * @param view The view in which the event was triggered
+     */
+    public void loginButtonPress(View view) {
         EditText user = findViewById(R.id.username);
         EditText pass = findViewById(R.id.password);
         String username = user.getText().toString(),

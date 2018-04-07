@@ -11,7 +11,6 @@ import java.util.Collection;
 
 /**
  * Created by samdoiron on 2018-02-16.
- * <p>
  * This is the activity that shows a user a listing of courses that they
  * can register for.
  */

@@ -21,6 +21,10 @@ public class LoginManager {
 
     private ArrayList<User> users;
 
+    /**
+     * Constructor which asynchronously connects to the database and fetches user info
+     * @param db A reference to the Firebase db
+     */
     public LoginManager(DatabaseReference db) {
         users = new ArrayList<>();
         ValueEventListener listener = new ValueEventListener() {
@@ -77,6 +81,10 @@ public class LoginManager {
         return "totallySecureRandomToken";
     }
 
+    /**
+     * An alternate constructor where the list of users is given
+     * @param users A list of users to be able to login in as
+     */
     public LoginManager(ArrayList<User> users) {
         this.users = users;
     }
