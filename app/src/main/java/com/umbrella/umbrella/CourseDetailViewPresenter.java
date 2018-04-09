@@ -5,13 +5,27 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CourseDetailViewPresenter {
     private final Course course;
+    private ArrayList<CourseRegistrationInfoViewModel> lectureViewModels;
+    UserRepo userRepo;
+    Student student;
 
-    public CourseDetailViewPresenter(Course course) {
+    public void setOnViewModelChanged(Function<CourseDetailViewModel, Void> onViewModelChanged) {
+        this.onViewModelChanged = onViewModelChanged;
+    }
+
+    private Function<CourseDetailViewModel, Void> onViewModelChanged;
+
+    public CourseDetailViewPresenter(Student student, Course course, UserRepo userRepo) {
+        this.student = student;
         this.course = course;
+        this.userRepo = userRepo;
+        this.onViewModelChanged = (_a) -> null;
+        lectureViewModels = makeRegistrationOptions();
     }
 
     public CourseDetailViewModel getViewModel() {
@@ -20,7 +34,7 @@ public class CourseDetailViewPresenter {
                 course.getCourseName(),
                 course.getDescription()
         );
-        viewModel.registrationOptions = makeRegistrationOptions();
+        viewModel.registrationOptions = lectureViewModels;
         return viewModel;
     }
 
@@ -30,6 +44,7 @@ public class CourseDetailViewPresenter {
             CourseRegistrationInfoViewModel viewModel = new CourseRegistrationInfoViewModel();
 
             viewModel.title = formatLectureOptionTitle(lecture);
+            viewModel.crn = lecture.getCRN();
             viewModels.add(viewModel);
         }
         return viewModels;
@@ -66,6 +81,45 @@ public class CourseDetailViewPresenter {
             case FRIDAY: return "F";
             default: return "?";
         }
+    }
+
+    public void checkViewModel(int position) {
+        for (CourseRegistrationInfoViewModel option : lectureViewModels) {
+            option.isChecked = false;
+        }
+        lectureViewModels.get(position).isChecked = true;
+        System.out.println("Selected is now: " + lectureViewModels.get(position).title);
+    }
+
+    public void register() {
+        try {
+            UpdateStudentRegistration update = new UpdateStudentRegistration(userRepo);
+            update.registerStudentForLectureLabs(student, getSelectedLectureLabs());
+            registrationSuccess();
+        } catch (InvalidRegistrationException e) {
+            registrationFailure();
+        }
+    }
+
+    private void signalViewModelChanged() {
+        onViewModelChanged.apply(getViewModel());
+    }
+
+    private void registrationSuccess() {
+        // TODO: implement
+    }
+
+    private void registrationFailure() {
+        // TODO: implement
+    }
+
+    public LectureLabSet getSelectedLectureLabs() {
+        LectureLabSet lectures = course.getLectures();
+        LectureLabSet selected = new LectureLabSet();
+        lectureViewModels.stream()
+                .map(vm -> lectures.getLectureByCRN(vm.crn))
+                .forEach(selected::add);
+        return selected;
     }
 }
 

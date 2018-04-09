@@ -61,6 +61,7 @@ public class FakeCourseRepo implements CourseRepo, Serializable {
     private LectureLab makeFakeLecture(Course course) {
         LectureLab lecture = new LectureLab(
                 course,
+                "123123",
                 "Dr. Fake",
                 "The Moon",
                 35,
@@ -85,6 +86,7 @@ public class FakeCourseRepo implements CourseRepo, Serializable {
     private LectureLab makeOtherFakeLecture(Course course) {
         LectureLab lecture = new LectureLab(
                 course,
+                "123123",
                 "Dr. Fake",
                 "The Moon",
                 35,

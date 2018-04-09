@@ -28,13 +28,17 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navView;
 
     public static final String COURSE_REPO = "courseRepo";
+
     private ApplicationData appData;
+    private UserRepo userRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         ActiveUser activeUser = intent.getParcelableExtra("USER");
         super.onCreate(savedInstanceState);
+
+        userRepo = new InMemoryUserRepo();
 
         manager = getFragmentManager();
         appData = (ApplicationData) getApplicationContext();
@@ -113,10 +117,12 @@ public class MainActivity extends AppCompatActivity {
         fragment.setArguments(arguments);
         switchToFragment(fragment);
     }
+
     public void switchToCourseDetails(Course course) {
         CourseDetailViewFragment fragment = new CourseDetailViewFragment();
         Bundle arguments = new Bundle();
         arguments.putSerializable(CourseDetailViewFragment.COURSE, course);
+        arguments.putSerializable(CourseDetailViewFragment.USER_REPO, userRepo);
         fragment.setArguments(arguments);
         switchToFragment(fragment);
     }

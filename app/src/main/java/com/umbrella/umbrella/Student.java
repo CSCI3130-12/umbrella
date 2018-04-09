@@ -78,4 +78,8 @@ public class Student extends User {
     public void addCredit(Course course) {
         creditsAcquired.addCourse(course);
     }
+
+    public LectureLabSet getRegistration() {
+        return registration;
+    }
 }

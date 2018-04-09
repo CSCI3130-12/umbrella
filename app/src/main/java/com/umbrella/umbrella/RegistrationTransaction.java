@@ -22,6 +22,10 @@ public class RegistrationTransaction {
         return workingStudent.isValid();
     }
 
+    public Student commit() {
+        return new Student(workingStudent);
+    }
+
     public void addOperation(RegistrationOperation operation) {
         operations.add(operation);
     }
