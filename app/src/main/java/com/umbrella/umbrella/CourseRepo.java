@@ -1,7 +1,6 @@
 package com.umbrella.umbrella;
 
 /**
-<<<<<<< HEAD
  * Created by samdoiron on 2018-04-04.
  */
 
