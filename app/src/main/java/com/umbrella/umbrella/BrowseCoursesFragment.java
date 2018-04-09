@@ -2,7 +2,7 @@ package com.umbrella.umbrella;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +24,12 @@ public class BrowseCoursesFragment extends Fragment {
     ViewCoursesPresenter presenter;
     ViewCoursesViewModel viewModel;
 
+    @Override
+    public void onCreate(Bundle bundle) {
+        setHasOptionsMenu(true);
+        super.onCreate(bundle);
+    }
+
     public void setArguments(Bundle bundle) {
         repo = (CourseRepo)bundle.get(MainActivity.COURSE_REPO);
         presenter = new ViewCoursesPresenter(repo);
@@ -35,6 +41,7 @@ public class BrowseCoursesFragment extends Fragment {
         ListView listView = baseView.findViewById(R.id.course_list);
         listView.setAdapter(dataAdapter());
 
+        presenter.refreshData();
         updateViewModel();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

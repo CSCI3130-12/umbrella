@@ -4,12 +4,17 @@ import java.io.Serializable;
 
 /**
  * Created by samdoiron on 2018-04-06.
+ * An implementation of the course repo containing faked out data
+ * to hold the place of the database for testing
  */
 
 public class FakeCourseRepo implements CourseRepo, Serializable {
 
     private final CourseSet fakeCourses;
 
+    /**
+     * Creates a new course repo populated with fake courses.
+     */
     public FakeCourseRepo() {
         fakeCourses = new CourseSet();
         fakeCourses.addCourse(
@@ -17,11 +22,20 @@ public class FakeCourseRepo implements CourseRepo, Serializable {
         );
     }
 
+    /**
+     * Returns the set of courses for this repo
+     * @return A CourseSet containing all the courses
+     */
     @Override
     public CourseSet getAllCourses() {
         return fakeCourses;
     }
 
+    /**
+     * Get a single course given its id, or null if it os not found
+     * @param courseID - the id to search for
+     * @return a course with the given id, or null
+     */
     @Override
     public Course getCourse(String courseID) {
         return fakeCourses.getCourseByID(courseID);

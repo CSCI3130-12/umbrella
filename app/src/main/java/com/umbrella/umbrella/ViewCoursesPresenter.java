@@ -1,27 +1,71 @@
 package com.umbrella.umbrella;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
- * Created by samdoiron on 2018-04-06.
+ * Created by Ben Baker on 2018-02-22.
+ * The presenter used to present courses
  */
 
 public class ViewCoursesPresenter {
-    private final CourseRepo repo ;
+    private final ViewAllCourses viewAllCourses;
+    private CourseSet courses;
 
     public ViewCoursesPresenter(CourseRepo repo) {
-        this.repo = repo;
+        this.viewAllCourses = new ViewAllCourses(repo);
+        this.refreshData();
     }
 
+    /**
+     * Builds a ViewModel with the current course set and sorts it
+     * @return A sorted CourseSet
+     */
     public ViewCoursesViewModel getViewModel() {
-        ArrayList<CourseListingViewModel> vms = new ArrayList<CourseListingViewModel>();
-        for (Course course : repo.getAllCourses()) {
-            vms.add(forCourse(course));
+        ArrayList<CourseListingViewModel> courseViewModels = new ArrayList<>();
+        ArrayList<Course> sortedCourses = sortAlphabeticallyByID(courses.getCourseSet().values());
+        for (Course course : sortedCourses) {
+            courseViewModels.add(viewModelForCourse(course));
         }
-        return new ViewCoursesViewModel(vms);
+        return new ViewCoursesViewModel(courseViewModels);
     }
 
-    private CourseListingViewModel forCourse(Course course) {
-        return new CourseListingViewModel(course.getCourseID(), course.getCourseName());
+    /**
+     * Refreshes the data in the CourseSet
+     */
+    public void refreshData() {
+        this.courses = viewAllCourses.viewAllCourses();
+    }
+
+    /**
+     * Creates a new CourseListingViewModel with a given course
+     * @param course The course to create a view model for
+     * @return A CourseListingViewModel to display the course
+     */
+    private CourseListingViewModel viewModelForCourse(Course course) {
+        return new CourseListingViewModel(
+                course.getCourseID(),
+                course.getCourseName()
+        );
+    }
+
+    /**
+     * Alphabetically sorts the given Collection by name
+     * @param courses A collection of courses
+     * @return A sorted ArrayList of courses
+     */
+    private ArrayList<Course> sortAlphabeticallyByID(Collection<Course> courses) {
+        ArrayList<Course> result = new ArrayList<>();
+        result.addAll(courses);
+        Collections.sort(result, new Comparator<Course>() {
+            @Override
+            public int compare(Course one, Course two) {
+                return one.getCourseName().compareTo(two.getCourseName());
+            }
+        });
+        return result;
     }
 }

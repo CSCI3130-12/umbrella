@@ -12,6 +12,12 @@ public class CourseListingViewModel {
     public final String name;
     public final String id;
 
+    /**
+     * Constructor to create a new course listing view model given an
+     * id and a name.
+     * @param id - The course id (CSCI-1111)
+     * @param name - The course name ("Software Engineering")
+     */
     CourseListingViewModel(String id, String name) {
         this.id = id;
         this.name = name;
@@ -20,6 +26,14 @@ public class CourseListingViewModel {
     /** @return the displayable title of the course */
     @Override
     public String toString() {
-        return name;
+        return getName();
+    }
+
+    /** @return the displayable title of the course */
+    public String getName() {
+        if(name == null)
+            return "Loading courses...";
+        else
+            return name;
     }
 }

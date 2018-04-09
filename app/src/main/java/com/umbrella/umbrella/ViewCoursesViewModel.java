@@ -1,5 +1,12 @@
 package com.umbrella.umbrella;
 
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,7 +21,7 @@ public class ViewCoursesViewModel {
      * The list of all course listing view models (unfiltered)
      * with a non-guaranteed order.
      */
-    public final ArrayList<CourseListingViewModel> courses;
+    public ArrayList<CourseListingViewModel> courses;
 
     ViewCoursesViewModel(ArrayList<CourseListingViewModel> courses) {
         this.courses = courses;

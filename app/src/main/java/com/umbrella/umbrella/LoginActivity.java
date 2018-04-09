@@ -1,11 +1,16 @@
 package com.umbrella.umbrella;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by justin on 16/02/18.
@@ -19,10 +24,18 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginManager = new LoginManager();
+        ApplicationData appData = (ApplicationData) getApplicationContext();
+        appData.firebaseDatabase = FirebaseDatabase.getInstance();
+        appData.dbReference = appData.firebaseDatabase.getReference();
+        DatabaseReference db = appData.dbReference;
+        loginManager = new LoginManager(db);
     }
 
-    public void buttonPress(View view) {
+    /**
+     * A button press event triggered upon the login button being pressed
+     * @param view The view in which the event was triggered
+     */
+    public void loginButtonPress(View view) {
         EditText user = findViewById(R.id.username);
         EditText pass = findViewById(R.id.password);
         String username = user.getText().toString(),
@@ -31,14 +44,14 @@ public class LoginActivity extends AppCompatActivity {
         if (loginManager.login(username, password)) {
 
             String token = loginManager.generateToken();
-            ActiveUser activeUser = new ActiveUser(username,password,token);
-            Intent intent = new Intent(this,MainActivity.class);
+            ActiveUser activeUser = new ActiveUser(username, password, token);
+            Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("USER", activeUser);
             startActivity(intent);
             this.finish();
         } else {
-            TextView output = findViewById(R.id.output);
-            output.setText("Error, incorrect username or password");
+            Toast toast = Toast.makeText(getApplicationContext(),"Error, incorrect username or password", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 }

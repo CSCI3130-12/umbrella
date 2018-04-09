@@ -1,7 +1,7 @@
 package com.umbrella.umbrella;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.text.style.TextAppearanceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +19,7 @@ public class StartFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle bundle) {
+        setHasOptionsMenu(true);
         super.onCreate(bundle);
         FakeRegistrationInfoRepo infoRepo = new FakeRegistrationInfoRepo(new Date());
         presenter = new StartPresenter(infoRepo);
