@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,10 +12,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 
@@ -25,18 +24,19 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     FragmentManager manager;
-
     private DrawerLayout drawerLayout;
     private NavigationView navView;
 
+    public static final String COURSE_REPO = "courseRepo";
     private ApplicationData appData;
-    public static MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         ActiveUser activeUser = intent.getParcelableExtra("USER");
         super.onCreate(savedInstanceState);
+
+        manager = getFragmentManager();
         appData = (ApplicationData) getApplicationContext();
         appData.firebaseDatabase = FirebaseDatabase.getInstance();
         appData.dbReference = appData.firebaseDatabase.getReference();
@@ -51,41 +51,33 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
-        navView = (NavigationView) findViewById(R.id.nav_view);
-
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
-        {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item)
-            {
-                item.setChecked(true);
-                drawerLayout.closeDrawers();
-                manager.popBackStack();
-
-                if (item.getItemId() == R.id.nav_browse) {
-                    Intent myIntent = new Intent(MainActivity.this, RegistrationActivity.class);
-                    startActivity(myIntent);
-
-                }else if(item.getItemId() == R.id.nav_view_my_courses){
-                    showMyCoursesFragment();
-                }else if(item.getItemId() == R.id.nav_logout){
-                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-
-                return true;
-            }
-        });
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_container, new StartFragment());
+        transaction.commit();
 
         drawerLayout = findViewById(R.id.drawer_layout);
 
-        TextView deadlineText = (TextView) findViewById(R.id.registration_deadline);
-
-
-        RegistrationInfo infoRepo = new RegistrationInfo(deadlineText, appData);
-        presenter = new MainPresenter(infoRepo);
-        deadlineText.setText(presenter.getViewModel().deadlineMessage);
+        navView = (NavigationView) findViewById(R.id.nav_view);
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                drawerLayout.closeDrawers();
+                switch (item.getItemId()) {
+                    case R.id.nav_add_drop:
+                        switchToBrowseCourses();
+                        break;
+                    case R.id.nav_main:
+                        switchToHome();
+                        break;
+                    case R.id.nav_logout:
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     /**
@@ -95,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        navView.bringToFront();
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
@@ -104,14 +95,39 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Creates a transaction for the ViewMyCourses fragment and pushes it to the stack
-     */
-    public void showMyCoursesFragment(){
+    public void switchToFragment(Fragment fragment) {
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.fragment,new MyCourseFragment(), "MyCourses");
         transaction.addToBackStack(null);
+        transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
     }
 
+    public void switchToHome() {
+        switchToFragment(new StartFragment());
+    }
+
+    public void switchToBrowseCourses() {
+        BrowseCoursesFragment fragment = new BrowseCoursesFragment();
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(COURSE_REPO, new FakeCourseRepo());
+        fragment.setArguments(arguments);
+        switchToFragment(fragment);
+    }
+    public void switchToCourseDetails(Course course) {
+        CourseDetailViewFragment fragment = new CourseDetailViewFragment();
+        Bundle arguments = new Bundle();
+        arguments.putSerializable(CourseDetailViewFragment.COURSE, course);
+        fragment.setArguments(arguments);
+        switchToFragment(fragment);
+    }
+
+    /**
+     * Creates a transaction for the ViewMyCourses fragment and pushes it to the stack
+     */
+    public void showMyCoursesFragment() {
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.add(R.id.fragment_container, new MyCourseFragment(), "MyCourses");
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 }

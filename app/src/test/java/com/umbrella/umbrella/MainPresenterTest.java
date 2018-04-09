@@ -18,7 +18,7 @@ public class MainPresenterTest {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date expectedDate = format.parse("2018-12-25");
             FakeRegistrationInfoRepo fakeRepo = new FakeRegistrationInfoRepo(expectedDate);
-            MainPresenter presenter = new MainPresenter(fakeRepo);
+            StartPresenter presenter = new StartPresenter(fakeRepo);
 
             MainViewModel viewModel = presenter.getViewModel();
 
@@ -34,7 +34,7 @@ public class MainPresenterTest {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date expectedDate = format.parse("2018-12-01");
             FakeRegistrationInfoRepo fakeRepo = new FakeRegistrationInfoRepo(expectedDate);
-            MainPresenter presenter = new MainPresenter(fakeRepo);
+            StartPresenter presenter = new StartPresenter(fakeRepo);
 
             MainViewModel viewModel = presenter.getViewModel();
 

@@ -17,36 +17,13 @@ import java.util.Collection;
  */
 
 public class ViewCoursesViewModel {
-    public  ArrayList<CourseListingViewModel> courses;
     /**
-     * Get the list of all course listing view models (unfiltered)
+     * The list of all course listing view models (unfiltered)
      * with a non-guaranteed order.
-     *
-     * @return The courses that should be displayed
      */
-    ArrayList<CourseListingViewModel> getCourses(DatabaseReference db) {
-        final ArrayList<CourseListingViewModel> courses = new ArrayList<>();
-        ValueEventListener listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                RegistrationActivity.adapter.clear();
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    String name = data.child("Name").getValue(String.class);
-                    RegistrationActivity.adapter.add(new CourseListingViewModel(name));
-                }
-            }
+    public ArrayList<CourseListingViewModel> courses;
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.println(Log.ERROR,"DB Error",databaseError.getMessage());
-            }
-        };
-        db = db.child("Semester").child("Courses").child("CourseList");
-        db.addValueEventListener(listener);
-
-        courses.add(new CourseListingViewModel());
-
-        return courses;
+    ViewCoursesViewModel(ArrayList<CourseListingViewModel> courses) {
+        this.courses = courses;
     }
-
 }

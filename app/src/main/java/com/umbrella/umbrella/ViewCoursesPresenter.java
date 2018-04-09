@@ -17,6 +17,7 @@ public class ViewCoursesPresenter {
 
     public ViewCoursesPresenter(CourseRepo repo) {
         this.viewAllCourses = new ViewAllCourses(repo);
+        this.refreshData();
     }
 
     /**
@@ -29,9 +30,7 @@ public class ViewCoursesPresenter {
         for (Course course : sortedCourses) {
             courseViewModels.add(viewModelForCourse(course));
         }
-        ViewCoursesViewModel viewModel = new ViewCoursesViewModel();
-        viewModel.courses = courseViewModels;
-        return viewModel;
+        return new ViewCoursesViewModel(courseViewModels);
     }
 
     /**
@@ -47,9 +46,10 @@ public class ViewCoursesPresenter {
      * @return A CourseListingViewModel to display the course
      */
     private CourseListingViewModel viewModelForCourse(Course course) {
-        CourseListingViewModel viewModel = new CourseListingViewModel();
-        viewModel.name = course.getCourseName();
-        return viewModel;
+        return new CourseListingViewModel(
+                course.getCourseID(),
+                course.getCourseName()
+        );
     }
 
     /**
@@ -59,9 +59,7 @@ public class ViewCoursesPresenter {
      */
     private ArrayList<Course> sortAlphabeticallyByID(Collection<Course> courses) {
         ArrayList<Course> result = new ArrayList<>();
-        for(Course course : courses){
-            result.add(course);
-        }
+        result.addAll(courses);
         Collections.sort(result, new Comparator<Course>() {
             @Override
             public int compare(Course one, Course two) {

@@ -1,7 +1,7 @@
 package com.umbrella.umbrella;
 
+import java.io.Serializable;
 import android.app.AuthenticationRequiredException;
-
 import java.util.LinkedList;
 
 /**
@@ -9,12 +9,11 @@ import java.util.LinkedList;
  * A course class that holds course-related information such as pre-requisites and IDs
  */
 
-public class Course {
+public class Course implements Serializable {
     /*To have attributes added as needed, modify after DB integration*/
-    private String crn;
     private String courseID;
     private String courseName;
-
+    private String description;
     private final CourseSet preRequisite;
     private final CourseSet coRequisite;
     private RequiredLectureLabs requiredLectureLabs;
@@ -25,7 +24,6 @@ public class Course {
         requiredLectureLabs = new RequiredLectureLabs();
     }
     public Course(Course course) {
-        crn = course.crn;
         courseID = course.courseID;
         courseName = course.courseName;
         preRequisite = new CourseSet(course.preRequisite);
@@ -47,36 +45,29 @@ public class Course {
         return courseID.hashCode();
     }
 
-    public Course(String crn, String courseID, String courseName) {
+    public Course(String courseID, String courseName) {
         preRequisite = new CourseSet();
         coRequisite = new CourseSet();
-        this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
         requiredLectureLabs = new RequiredLectureLabs();
     }
 
-    public Course(String crn, String courseID, String courseName, String courseType) {
+    public Course(String courseID, String courseName, String description) {
         preRequisite = new CourseSet();
         coRequisite = new CourseSet();
-        this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
+        this.description = description;
         requiredLectureLabs = new RequiredLectureLabs();
     }
 
-
-    public Course(String crn, String courseID, String courseName, CourseSet preRequisite, CourseSet coRequisite) {
+    public Course(String courseID, String courseName, String description, CourseSet preRequisite, CourseSet coRequisite) {
         this.preRequisite = preRequisite;
         this.coRequisite = coRequisite;
-        this.crn = crn;
         this.courseID = courseID;
         this.courseName = courseName;
-        requiredLectureLabs = new RequiredLectureLabs();
-    }
-
-    public String getCRN() {
-        return crn;
+        this.description = description;
     }
 
     /**
@@ -84,7 +75,6 @@ public class Course {
      * @return courseID a String
      */
     public String getCourseID() {
-
         return courseID;
     }
 
@@ -110,6 +100,22 @@ public class Course {
      */
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    /**
+     * Gets the description of the course
+     * @return description String
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the description of the course
+     * @param description The description
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -161,5 +167,9 @@ public class Course {
 
     public void setRequirements(RequiredLectureLabs requirements) {
         this.requiredLectureLabs = requirements;
+    }
+
+    public LectureLabSet getLectures() {
+        return requiredLectureLabs.requiredLectures;
     }
 }

@@ -16,7 +16,6 @@ import java.util.Collection;
  */
 
 public class RegistrationActivity extends Activity {
-
     ViewCoursesPresenter presenter;
     ViewCoursesViewModel viewModel;
     ApplicationData appData;
@@ -31,7 +30,7 @@ public class RegistrationActivity extends Activity {
 
         setContentView(R.layout.registration);
         appData = (ApplicationData) getApplicationContext();
-        viewModel = new ViewCoursesViewModel();
+        viewModel = presenter.getViewModel();
         ListView listView = (ListView) findViewById(R.id.course_list);
 
         adapter = dataAdapter();
@@ -46,8 +45,7 @@ public class RegistrationActivity extends Activity {
      * @return an ArrayAdapter that can be used with a list view.
      */
     ArrayAdapter dataAdapter() {
-
-        ArrayList<CourseListingViewModel> listings = viewModel.getCourses(appData.dbReference);
+        ArrayList<CourseListingViewModel> listings = viewModel.courses;
 
         return new ArrayAdapter<>(
                 RegistrationActivity.this,
@@ -57,11 +55,6 @@ public class RegistrationActivity extends Activity {
     }
 
     private CourseRepo getCourseRepo() {
-        CourseSet courses = new CourseSet();
-        for (int i = 0; i < 10; i++) {
-            // 💩
-            courses.addCourse(new Course(Integer.toString(i), "CSCI" + (int)(Math.random() * 9999), "Computer Science " + i));
-        }
-        return new FakeCourseRepo(courses);
+        return new FakeCourseRepo();
     }
 }

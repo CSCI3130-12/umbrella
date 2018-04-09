@@ -68,7 +68,7 @@ public class MyCourseFragment extends Fragment {
 
         courses.addCourse(new Course("1","test","testname"));
 
-        return new FakeCourseRepo(courses);
+        return new FakeCourseRepo();
     }
 
 }
