@@ -16,8 +16,8 @@ import java.util.Collection;
  */
 
 public class RegistrationActivity extends Activity {
-    ViewCoursesPresenter presenter;
-    ViewCoursesViewModel viewModel;
+
+    public static ViewCoursesPresenter presenter;
     ApplicationData appData;
     public static ArrayAdapter adapter;
 
@@ -25,12 +25,14 @@ public class RegistrationActivity extends Activity {
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        presenter = new ViewCoursesPresenter(getCourseRepo());
+        appData = (ApplicationData)getApplicationContext();
+        CourseRepo repo = new DatabaseCourseRepo(appData.dbReference);
+        presenter = new ViewCoursesPresenter(repo);
         presenter.refreshData();
 
         setContentView(R.layout.registration);
-        appData = (ApplicationData) getApplicationContext();
-        viewModel = presenter.getViewModel();
+
+
         ListView listView = (ListView) findViewById(R.id.course_list);
 
         adapter = dataAdapter();
@@ -45,7 +47,8 @@ public class RegistrationActivity extends Activity {
      * @return an ArrayAdapter that can be used with a list view.
      */
     ArrayAdapter dataAdapter() {
-        ArrayList<CourseListingViewModel> listings = viewModel.courses;
+
+        ArrayList<CourseListingViewModel> listings = presenter.getViewModel().courses;
 
         return new ArrayAdapter<>(
                 RegistrationActivity.this,
@@ -55,6 +58,11 @@ public class RegistrationActivity extends Activity {
     }
 
     private CourseRepo getCourseRepo() {
-        return new FakeCourseRepo();
+        CourseSet courses = new CourseSet();
+        for (int i = 0; i < 10; i++) {
+            // 💩
+            courses.addCourse(new Course(Integer.toString(i), "CSCI" + (int)(Math.random() * 9999), "Computer Science " + i));
+        }
+        return new FakeCourseRepo(courses);
     }
 }
