@@ -17,8 +17,7 @@ import java.util.Collection;
 
 public class RegistrationActivity extends Activity {
 
-    ViewCoursesPresenter presenter;
-    ViewCoursesViewModel viewModel;
+    public static ViewCoursesPresenter presenter;
     ApplicationData appData;
     public static ArrayAdapter adapter;
 
@@ -26,12 +25,14 @@ public class RegistrationActivity extends Activity {
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        presenter = new ViewCoursesPresenter(getCourseRepo());
+        appData = (ApplicationData)getApplicationContext();
+        CourseRepo repo = new DatabaseCourseRepo(appData.dbReference);
+        presenter = new ViewCoursesPresenter(repo);
         presenter.refreshData();
 
         setContentView(R.layout.registration);
         appData = (ApplicationData) getApplicationContext();
-        viewModel = new ViewCoursesViewModel();
+
         ListView listView = (ListView) findViewById(R.id.course_list);
 
         adapter = dataAdapter();
@@ -47,7 +48,7 @@ public class RegistrationActivity extends Activity {
      */
     ArrayAdapter dataAdapter() {
 
-        ArrayList<CourseListingViewModel> listings = viewModel.getCourses(appData.dbReference);
+        ArrayList<CourseListingViewModel> listings = presenter.getViewModel().getCourses();
 
         return new ArrayAdapter<>(
                 RegistrationActivity.this,

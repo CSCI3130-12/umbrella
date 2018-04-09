@@ -52,6 +52,10 @@ public class ViewCoursesPresenter {
         return viewModel;
     }
 
+    public void pushToAdapter(){
+        RegistrationActivity.adapter.addAll(getViewModel().courses);
+    }
+
     /**
      * Alphabetically sorts the given Collection by name
      * @param courses A collection of courses

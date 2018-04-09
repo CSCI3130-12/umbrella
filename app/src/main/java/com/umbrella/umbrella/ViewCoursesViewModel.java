@@ -24,29 +24,8 @@ public class ViewCoursesViewModel {
      *
      * @return The courses that should be displayed
      */
-    ArrayList<CourseListingViewModel> getCourses(DatabaseReference db) {
-        final ArrayList<CourseListingViewModel> courses = new ArrayList<>();
-        ValueEventListener listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                RegistrationActivity.adapter.clear();
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    String name = data.child("Name").getValue(String.class);
-                    RegistrationActivity.adapter.add(new CourseListingViewModel(name));
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.println(Log.ERROR,"DB Error",databaseError.getMessage());
-            }
-        };
-        db = db.child("Semester").child("Courses").child("CourseList");
-        db.addValueEventListener(listener);
-
-        courses.add(new CourseListingViewModel());
-
-        return courses;
+    ArrayList<CourseListingViewModel> getCourses() {
+                return courses;
     }
 
 }
