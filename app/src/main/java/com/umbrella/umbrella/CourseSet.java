@@ -182,7 +182,6 @@ public class CourseSet implements Collection<Course>, Iterable<Course> {
 
     @Override
     public boolean containsAll(@NonNull Collection<?> search) {
-        // XXX: Unimplemented
         for (Object course : search) {
             if (!courses.containsValue(course)) {
                 return false;

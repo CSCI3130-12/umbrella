@@ -25,7 +25,8 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_constraintBottom_toTopOf="@+id/registration_deadline" />
 
-        <LinearLayout android:id="@+id/fragment_container"
+        <LinearLayout android:orientation="vertical"
+            android:id="@+id/fragment_container"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content">
         </LinearLayout>
