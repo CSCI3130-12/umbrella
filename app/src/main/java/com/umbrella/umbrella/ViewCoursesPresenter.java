@@ -17,6 +17,10 @@ public class ViewCoursesPresenter {
     private final ViewAllCourses viewAllCourses;
     private CourseSet courses;
 
+    /**
+     * A constructor to create the presenter and refresh its data
+     * @param repo The CourseRepo to populate the presenter
+     */
     public ViewCoursesPresenter(CourseRepo repo) {
         this.viewAllCourses = new ViewAllCourses(repo);
         this.refreshData();
@@ -54,8 +58,12 @@ public class ViewCoursesPresenter {
         );
     }
 
+    /**
+     * Updates the array adapter with the new CourseListingViewModels
+     * @param adapter The adapter to push the new information to
+     */
     public void pushToAdapter(ArrayAdapter<CourseListingViewModel> adapter){
-        adapter.addAll(getViewModel().getCourses());
+        adapter.addAll(getViewModel().courses);
     }
 
     /**

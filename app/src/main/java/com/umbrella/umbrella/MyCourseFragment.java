@@ -62,7 +62,7 @@ public class MyCourseFragment extends Fragment {
         courses.toArray(listings);
         */
 
-        ArrayList<CourseListingViewModel> listings = presenter.getViewModel().getCourses();
+        ArrayList<CourseListingViewModel> listings = presenter.getViewModel().courses;
         return new ArrayAdapter<>(
                 MyCourseFragment.this.getActivity(),
                 android.R.layout.simple_list_item_1,
@@ -71,7 +71,7 @@ public class MyCourseFragment extends Fragment {
     }
     
     /**
-     *
+     * Generates a fake Repo with a single course
      * @return a CourseRepo for the current user
      */
     CourseRepo getCourseRepo(){

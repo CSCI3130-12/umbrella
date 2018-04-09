@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navView;
 
     private ApplicationData appData;
-    public static MainPresenter presenter;
+    public static final String COURSE_REPO = "REPO";
+    public static StartPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         TextView deadlineText = (TextView) findViewById(R.id.registration_deadline);
 
 
-        RegistrationInfo infoRepo = new RegistrationInfo(deadlineText, appData);
-        presenter = new MainPresenter(infoRepo);
+        RegistrationInfo infoRepo = new RegistrationInfo(appData);
+        presenter = new StartPresenter(infoRepo);
         deadlineText.setText(presenter.getViewModel().deadlineMessage);
     }
 

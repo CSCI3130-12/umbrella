@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Created by justin on 08/04/18.
+ * An implementation of CourseRepo that gets all the courses from the database
  */
 
 public class DatabaseCourseRepo implements CourseRepo {
@@ -19,11 +20,29 @@ public class DatabaseCourseRepo implements CourseRepo {
     private CourseSet courses;
 
 
+    /**
+     * Gets the CourseSet of all courses in the repo
+     * @return A CourseSet containing the courses
+     */
     @Override
     public CourseSet getAllCourses(){
         return courses;
     }
 
+    /**
+     * Gets a specific course from the repo
+     * @param s The ID of the course to search for
+     * @return The course with the given ID or Null if not found
+     */
+    @Override
+    public Course getCourse(String s){
+        return courses.getCourseByID(s);
+    }
+
+    /**
+     * A constructor to initialise the repo with the info from the database
+     * @param db The Firebase database reference
+     */
     public DatabaseCourseRepo(DatabaseReference db){
 
         courses = new CourseSet();

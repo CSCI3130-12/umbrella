@@ -24,6 +24,11 @@ public class MyCourseRepo implements CourseRepo {
         return courses;
     }
 
+    @Override
+    public Course getCourse(String s){
+        return courses.getCourseByID(s);
+    }
+
     /**
      * Initialise a new course repo from the database
      * @param db A reference to the Firebase database

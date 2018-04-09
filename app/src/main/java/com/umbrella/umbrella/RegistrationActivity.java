@@ -48,7 +48,7 @@ public class RegistrationActivity extends Activity {
      */
     ArrayAdapter dataAdapter() {
 
-        ArrayList<CourseListingViewModel> listings = presenter.getViewModel().getCourses();
+        ArrayList<CourseListingViewModel> listings = presenter.getViewModel().courses;
 
         return new ArrayAdapter<>(
                 RegistrationActivity.this,
