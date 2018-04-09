@@ -1,5 +1,7 @@
 package com.umbrella.umbrella;
 
+import android.widget.ArrayAdapter;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,6 +17,10 @@ public class ViewCoursesPresenter {
     private final ViewAllCourses viewAllCourses;
     private CourseSet courses;
 
+    /**
+     * A constructor to create the presenter and refresh its data
+     * @param repo The CourseRepo to populate the presenter
+     */
     public ViewCoursesPresenter(CourseRepo repo) {
         this.viewAllCourses = new ViewAllCourses(repo);
         this.refreshData();
@@ -50,6 +56,14 @@ public class ViewCoursesPresenter {
                 course.getCourseID(),
                 course.getCourseName()
         );
+    }
+
+    /**
+     * Updates the array adapter with the new CourseListingViewModels
+     * @param adapter The adapter to push the new information to
+     */
+    public void pushToAdapter(ArrayAdapter<CourseListingViewModel> adapter){
+        adapter.addAll(getViewModel().courses);
     }
 
     /**
