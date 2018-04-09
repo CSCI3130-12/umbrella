@@ -31,7 +31,7 @@ public class RegistrationActivity extends Activity {
         presenter.refreshData();
 
         setContentView(R.layout.registration);
-        appData = (ApplicationData) getApplicationContext();
+
 
         ListView listView = (ListView) findViewById(R.id.course_list);
 

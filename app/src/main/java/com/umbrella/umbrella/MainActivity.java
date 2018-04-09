@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         ActiveUser activeUser = intent.getParcelableExtra("USER");
+        //Toast toast = Toast.makeText(getApplicationContext(),activeUser.getUsername(), Toast.LENGTH_SHORT);
+        //toast.show();
         super.onCreate(savedInstanceState);
         appData = (ApplicationData) getApplicationContext();
         appData.firebaseDatabase = FirebaseDatabase.getInstance();
@@ -109,7 +112,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public void showMyCoursesFragment(){
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.fragment,new MyCourseFragment(), "MyCourses");
+        MyCourseFragment myCourseFragment = new MyCourseFragment();
+        myCourseFragment.setArguments(getIntent().getExtras());
+        transaction.add(R.id.fragment,myCourseFragment, "MyCourses");
         transaction.addToBackStack(null);
         transaction.commit();
     }

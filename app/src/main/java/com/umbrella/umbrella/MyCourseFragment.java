@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 import java.util.Collection;
 
 
@@ -15,13 +17,18 @@ import java.util.Collection;
  */
 public class MyCourseFragment extends Fragment {
 
-    ViewCoursesPresenter presenter;
+    public static ViewCoursesPresenter presenter;
+    public static ArrayAdapter adapter;
+    private ApplicationData appData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_course, container, false);
-        preparePresenter(view);
+        ActiveUser student = getActivity().getIntent().getParcelableExtra("USER");
+
+        appData = (ApplicationData) getActivity().getApplicationContext();
+        preparePresenter(view,student.getUsername());
 
         return view;
 
@@ -31,13 +38,14 @@ public class MyCourseFragment extends Fragment {
      * Prepares the presenter and ties it to the ListView
      * @param view The view for the fragment
      */
-    public void preparePresenter(View view){
+    public void preparePresenter(View view, String student){
 
-        presenter = new ViewCoursesPresenter(getCourseRepo());
+        presenter = new ViewCoursesPresenter(new MyCourseRepo(appData.dbReference,student));
         presenter.refreshData();
         ListView listView = view.findViewById(R.id.list);
 
-        listView.setAdapter(dataAdapter());
+        adapter = dataAdapter();
+        listView.setAdapter(adapter);
     }
 
     /**
@@ -46,12 +54,15 @@ public class MyCourseFragment extends Fragment {
      * @return an ArrayAdapter that can be used with a list view.
      */
     ArrayAdapter dataAdapter() {
+        /*
         ViewCoursesViewModel viewModel = presenter.getViewModel();
 
         Collection<CourseListingViewModel> courses = viewModel.courses;
         CourseListingViewModel listings[] = new CourseListingViewModel[courses.size()];
         courses.toArray(listings);
+        */
 
+        ArrayList<CourseListingViewModel> listings = presenter.getViewModel().getCourses();
         return new ArrayAdapter<>(
                 MyCourseFragment.this.getActivity(),
                 android.R.layout.simple_list_item_1,

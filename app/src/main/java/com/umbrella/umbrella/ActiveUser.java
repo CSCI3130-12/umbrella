@@ -38,7 +38,7 @@ public class ActiveUser extends User implements Parcelable {
     public static final Creator<ActiveUser> CREATOR = new Creator<ActiveUser>() {
         @Override
         public ActiveUser createFromParcel(Parcel parcel) {
-            return null;
+            return new ActiveUser(parcel);
         }
 
         @Override

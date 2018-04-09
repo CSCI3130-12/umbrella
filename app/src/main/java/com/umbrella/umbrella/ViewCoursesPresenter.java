@@ -1,5 +1,7 @@
 package com.umbrella.umbrella;
 
+import android.widget.ArrayAdapter;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -52,8 +54,8 @@ public class ViewCoursesPresenter {
         return viewModel;
     }
 
-    public void pushToAdapter(){
-        RegistrationActivity.adapter.addAll(getViewModel().courses);
+    public void pushToAdapter(ArrayAdapter<CourseListingViewModel> adapter){
+        adapter.addAll(getViewModel().getCourses());
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.umbrella.umbrella;
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,13 +18,14 @@ public class DatabaseCourseRepo implements CourseRepo {
 
     private CourseSet courses;
 
+
     @Override
     public CourseSet getAllCourses(){
         return courses;
     }
 
     public DatabaseCourseRepo(DatabaseReference db){
-        //final ArrayList<CourseListingViewModel> courses = new ArrayList<>();
+
         courses = new CourseSet();
         ValueEventListener listener = new ValueEventListener() {
             @Override
@@ -36,7 +38,7 @@ public class DatabaseCourseRepo implements CourseRepo {
                     Course course = new Course(crn,id,name);
                     courses.addCourse(course);
                 }
-                RegistrationActivity.presenter.pushToAdapter();
+                RegistrationActivity.presenter.pushToAdapter(RegistrationActivity.adapter);
             }
 
             @Override
