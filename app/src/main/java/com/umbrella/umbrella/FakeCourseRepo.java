@@ -22,6 +22,10 @@ public class FakeCourseRepo implements CourseRepo, Serializable {
         );
     }
 
+    public FakeCourseRepo(CourseSet courses) {
+        fakeCourses = courses;
+    }
+
     /**
      * Returns the set of courses for this repo
      * @return A CourseSet containing all the courses
