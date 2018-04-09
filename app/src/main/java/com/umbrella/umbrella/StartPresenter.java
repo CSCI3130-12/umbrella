@@ -8,11 +8,11 @@ import java.util.Date;
  * The presenter for the initial screen of the app.
  */
 
-public class MainPresenter {
+public class StartPresenter {
     private final RegistrationInfoRepo repo;
     SimpleDateFormat dateFormat;
 
-    public MainPresenter(RegistrationInfoRepo repo) {
+    public StartPresenter(RegistrationInfoRepo repo) {
         this.repo = repo;
         this.dateFormat = new SimpleDateFormat("MMMM d yyyy");
     }

@@ -27,13 +27,11 @@ public class RegistrationInfo implements RegistrationInfoRepo {
     private Date deadline;
     private DatabaseReference db;
 
-
     /**
      * Constructor to initialise a new RegistrationInfo repo
-     * @param text The text field it will update with the info when ready
      * @param data The application data for the app containing firebase information
      */
-    public RegistrationInfo(final TextView text, ApplicationData data) {
+    public RegistrationInfo(ApplicationData data) {
         db = data.dbReference.child("Semester").child("Semester info").child("Registration dates").child("End");
 
         ValueEventListener listener = new ValueEventListener() {
@@ -47,7 +45,7 @@ public class RegistrationInfo implements RegistrationInfoRepo {
                     e.printStackTrace();
                 }
 
-                text.setText(MainActivity.presenter.getViewModel().deadlineMessage);
+                // text.setText(MainActivity.presenter.getViewModel().deadlineMessage);
             }
 
             @Override

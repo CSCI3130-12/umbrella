@@ -17,15 +17,18 @@ import java.util.Collection;
  */
 
 public class ViewCoursesViewModel {
-    public  ArrayList<CourseListingViewModel> courses;
     /**
-     * Get the list of all course listing view models (unfiltered)
+     * The list of all course listing view models (unfiltered)
      * with a non-guaranteed order.
-     *
-     * @return The courses that should be displayed
      */
+<<<<<<< HEAD
     ArrayList<CourseListingViewModel> getCourses() {
                 return courses;
-    }
+=======
+    public ArrayList<CourseListingViewModel> courses;
 
+    ViewCoursesViewModel(ArrayList<CourseListingViewModel> courses) {
+        this.courses = courses;
+>>>>>>> master
+    }
 }

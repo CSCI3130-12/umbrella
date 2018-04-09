@@ -1,15 +1,22 @@
 package com.umbrella.umbrella;
 
 /**
- * Created by Ben Baker on 2018-02-22.
- * An interface to interact with the course repo
+ * Created by samdoiron on 2018-04-04.
  */
 
-public interface CourseRepo {
-
+interface CourseRepo {
     /**
      * Get all the courses in the repo
+     *
      * @return A CourseSet containing all the courses
      */
     public CourseSet getAllCourses();
+
+    /**
+     * Get a specific course by its course id (CSCI-1111)
+     *
+     * @return A Course with the given id, or null.
+     */
+    public Course getCourse(String courseID);
 }
+

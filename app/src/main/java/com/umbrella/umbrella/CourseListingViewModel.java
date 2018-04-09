@@ -9,27 +9,23 @@ package com.umbrella.umbrella;
  */
 
 public class CourseListingViewModel {
-    String name;
+    public final String name;
+    public final String id;
 
     /**
-     * Empty constructor used to create a ViewModel with a Null name
+     * Constructor to create a new course listing view model given an
+     * id and a name.
+     * @param id - The course id (CSCI-1111)
+     * @param name - The course name ("Software Engineering")
      */
-    public CourseListingViewModel(){
-
-    }
-
-    /**
-     * Constructor used when generating a new course
-     * @param n the name to set for the course
-     */
-    public CourseListingViewModel(String n){
-        name = n;
+    CourseListingViewModel(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     /** @return the displayable title of the course */
     @Override
     public String toString() {
-
         return getName();
     }
 

@@ -33,6 +33,10 @@ public class RequiredLectureLabs {
                 && requiredLabs.isEmpty() || registration.doesIntersect(requiredLabs);
     }
 
+    public void addRequiredLectureOption(LectureLab lectureLab) {
+        requiredLectures.add(lectureLab);
+    }
+
     public void addRequiredLabOption(LectureLab lectureLab) {
         requiredLabs.add(lectureLab);
     }
