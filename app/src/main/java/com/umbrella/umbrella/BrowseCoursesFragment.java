@@ -23,6 +23,7 @@ public class BrowseCoursesFragment extends Fragment {
     CourseRepo repo;
     ViewCoursesPresenter presenter;
     ViewCoursesViewModel viewModel;
+    private ArrayAdapter adapter;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -41,6 +42,12 @@ public class BrowseCoursesFragment extends Fragment {
         ListView listView = baseView.findViewById(R.id.course_list);
         listView.setAdapter(dataAdapter());
 
+        presenter.setOnViewModelChanged(viewModel -> {
+            this.viewModel = viewModel;
+            listView.setAdapter(dataAdapter());
+            return null;
+        });
+
         presenter.refreshData();
         updateViewModel();
 
@@ -48,8 +55,9 @@ public class BrowseCoursesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CourseListingViewModel clickedVM = viewModel.courses.get(position);
-                Course clickedCourse = repo.getCourse(clickedVM.id);
-                ((MainActivity)getActivity()).switchToCourseDetails(clickedCourse);
+                repo.getCourse(clickedVM.id).thenAccept(course -> {
+                    ((MainActivity)getActivity()).switchToCourseDetails(course);
+                });
             }
         });
         return baseView;

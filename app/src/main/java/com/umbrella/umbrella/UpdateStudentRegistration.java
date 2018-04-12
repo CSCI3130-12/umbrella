@@ -7,13 +7,13 @@ import java.util.concurrent.Future;
  */
 
 public class UpdateStudentRegistration {
-    UserRepo repo;
+    StudentRepo repo;
 
-    public UpdateStudentRegistration(UserRepo repo) {
+    public UpdateStudentRegistration(StudentRepo repo) {
         this.repo = repo;
     }
 
-    public Future<Void> registerStudentForLectureLabs(Student student, LectureLabSet labs) throws InvalidRegistrationException {
+    public void registerStudentForLectureLabs(Student student, LectureLabSet labs) throws InvalidRegistrationException {
         RegistrationTransaction transaction = new RegistrationTransaction(student);
         for (LectureLab lab : labs) {
             transaction.addOperation(new RegisterForLectureOrLabOperation(lab));
@@ -23,6 +23,6 @@ public class UpdateStudentRegistration {
             throw new InvalidRegistrationException();
         }
 
-        return repo.updateStudentRegistration(transaction.commit());
+        repo.updateRegistration(transaction.commit());
     }
 }

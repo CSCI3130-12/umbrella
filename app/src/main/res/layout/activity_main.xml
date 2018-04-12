@@ -3,7 +3,7 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout_login"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.umbrella.umbrella.MainActivity"
@@ -25,27 +25,16 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_constraintBottom_toTopOf="@+id/registration_deadline" />
 
-        <TextView
-            android:id="@+id/registration_deadline"
+        <LinearLayout android:orientation="horizontal"
+            android:id="@+id/fragment_container"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:padding="16dp"
-            android:text=""
-            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-            android:textColor="@android:color/background_light"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.6" />
+            android:layout_height="wrap_content">
+        </LinearLayout>
     </LinearLayout>
 
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
-
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -53,22 +42,6 @@
         app:itemBackground="@drawable/ripple_navigation_selector"
         app:menu="@menu/drawer_view" />
 
-
-    <FrameLayout
-        android:id="@+id/fragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
-        android:paddingTop="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </FrameLayout>
 
 </android.support.v4.widget.DrawerLayout>
 

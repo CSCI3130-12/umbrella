@@ -56,13 +56,4 @@ public class RegistrationActivity extends Activity {
                 listings
         );
     }
-
-    private CourseRepo getCourseRepo() {
-        CourseSet courses = new CourseSet();
-        for (int i = 0; i < 10; i++) {
-            // 💩
-            courses.addCourse(new Course(Integer.toString(i), "CSCI" + (int)(Math.random() * 9999), "Computer Science " + i));
-        }
-        return new FakeCourseRepo(courses);
-    }
 }

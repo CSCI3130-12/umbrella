@@ -6,7 +6,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.umbrella.umbrella.MainActivity">
+    tools:context="com.umbrella.umbrella.LoginActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.umbrella.umbrella.MainActivity">
+        tools:context="com.umbrella.umbrella.LoginActivity">
 
         <TextView
             android:layout_width="match_parent"
@@ -76,8 +76,6 @@
             android:text="Login" />
 
     </LinearLayout>
-
-
 
 
 </android.support.v4.widget.DrawerLayout>

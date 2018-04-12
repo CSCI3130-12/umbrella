@@ -10,28 +10,28 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+
 
 public class CourseDetailViewFragment extends Fragment {
     public static String COURSE = "COURSE";
-    public static final String USER_REPO = "userRepo";
+    public static final String USER_REPO = "studentRepo";
 
     private CourseDetailViewPresenter presenter;
     private CourseDetailViewModel viewModel;
-    private UserRepo userRepo;
+    private StudentRepo studentRepo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Course course = ((Course)getArguments().get(COURSE));
-        userRepo = ((UserRepo)getArguments().get(USER_REPO));
-        presenter = new CourseDetailViewPresenter(
-                // FIXME: Hack to get the current user
-                getActivity().getIntent().getParcelableExtra("USER"),
-                course,
-                userRepo
-        );
+        studentRepo = ((StudentRepo)getArguments().get(USER_REPO));
+        ActiveUser userInfo = getActivity().getIntent().getParcelableExtra("USER");
+        presenter = new CourseDetailViewPresenter(userInfo, course, studentRepo);
 
         presenter.setOnViewModelChanged(viewModel -> {
+            this.viewModel = viewModel;
             onViewModelChanged();
             return null;
         });
@@ -71,6 +71,7 @@ public class CourseDetailViewFragment extends Fragment {
         });
         Button registerButton = view.findViewById(R.id.register_button);
         registerButton.setOnClickListener(_e -> {
+            System.out.println("Registering");
             presenter.register();
         });
     }

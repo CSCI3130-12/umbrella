@@ -1,18 +1,18 @@
 package com.umbrella.umbrella;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CourseDetailViewPresenter {
     private final Course course;
     private ArrayList<CourseRegistrationInfoViewModel> lectureViewModels;
-    UserRepo userRepo;
-    Student student;
+    StudentRepo studentRepo;
+    CompletableFuture<Student> student;
+    private String errorFlash;
+    private String successFlash;
 
     public void setOnViewModelChanged(Function<CourseDetailViewModel, Void> onViewModelChanged) {
         this.onViewModelChanged = onViewModelChanged;
@@ -20,12 +20,15 @@ public class CourseDetailViewPresenter {
 
     private Function<CourseDetailViewModel, Void> onViewModelChanged;
 
-    public CourseDetailViewPresenter(Student student, Course course, UserRepo userRepo) {
-        this.student = student;
+    public CourseDetailViewPresenter(ActiveUser userInfo, Course course, StudentRepo studentRepo) {
         this.course = course;
-        this.userRepo = userRepo;
+        this.studentRepo = studentRepo;
         this.onViewModelChanged = (_a) -> null;
         lectureViewModels = makeRegistrationOptions();
+        this.student = studentRepo.getByUsername(userInfo.getUsername()).thenApply(student -> {
+            signalViewModelChanged();
+            return student;
+        });
     }
 
     public CourseDetailViewModel getViewModel() {
@@ -35,6 +38,11 @@ public class CourseDetailViewPresenter {
                 course.getDescription()
         );
         viewModel.registrationOptions = lectureViewModels;
+        viewModel.errorMessage = errorFlash;
+        viewModel.successMessage = successFlash;
+
+        successFlash = null;
+        errorFlash = null;
         return viewModel;
     }
 
@@ -88,17 +96,29 @@ public class CourseDetailViewPresenter {
             option.isChecked = false;
         }
         lectureViewModels.get(position).isChecked = true;
-        System.out.println("Selected is now: " + lectureViewModels.get(position).title);
     }
 
-    public void register() {
-        try {
-            UpdateStudentRegistration update = new UpdateStudentRegistration(userRepo);
-            update.registerStudentForLectureLabs(student, getSelectedLectureLabs());
-            registrationSuccess();
-        } catch (InvalidRegistrationException e) {
-            registrationFailure();
-        }
+    public CompletableFuture<Void> register() {
+        System.out.println("Waiting");
+        CompletableFuture<Void> done = new CompletableFuture<>();
+        student.thenAccept(student -> {
+            System.out.println("Got student");
+            try {
+                System.out.println("In success");
+                UpdateStudentRegistration update = new UpdateStudentRegistration(studentRepo);
+                update.registerStudentForLectureLabs(student, getSelectedLectureLabs());
+                registrationSuccess();
+                System.out.println("End");
+            } catch (InvalidRegistrationException e) {
+                registrationFailure();
+            } catch (Exception e) {
+                e.printStackTrace();
+                registrationFailure();
+            } finally {
+                done.complete(null);
+            }
+        });
+        return done;
     }
 
     private void signalViewModelChanged() {
@@ -106,11 +126,15 @@ public class CourseDetailViewPresenter {
     }
 
     private void registrationSuccess() {
-        // TODO: implement
+        successFlash = "Registration success!";
+        System.out.println("success");
+        signalViewModelChanged();
     }
 
     private void registrationFailure() {
-        // TODO: implement
+        errorFlash = "Invalid registration";
+        System.out.println("failure");
+        signalViewModelChanged();
     }
 
     public LectureLabSet getSelectedLectureLabs() {

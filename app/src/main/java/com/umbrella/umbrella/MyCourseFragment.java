@@ -20,6 +20,7 @@ public class MyCourseFragment extends Fragment {
     public static ViewCoursesPresenter presenter;
     public static ArrayAdapter adapter;
     private ApplicationData appData;
+    private ViewCoursesViewModel viewModel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,24 +29,22 @@ public class MyCourseFragment extends Fragment {
         ActiveUser student = getActivity().getIntent().getParcelableExtra("USER");
 
         appData = (ApplicationData) getActivity().getApplicationContext();
-        preparePresenter(view,student.getUsername());
+        presenter = new ViewCoursesPresenter(new DatabaseRegistrationRepo(student.getUsername(), appData.dbReference));
+        ListView listView = view.findViewById(R.id.list);
+
+        presenter.setOnViewModelChanged(viewModel -> {
+            this.viewModel = viewModel;
+
+            System.out.println("Updating data adapter");
+            listView.setAdapter(dataAdapter());
+            return null;
+        });
+
+        viewModel = presenter.getViewModel();
+        listView.setAdapter(dataAdapter());
 
         return view;
 
-    }
-
-    /**
-     * Prepares the presenter and ties it to the ListView
-     * @param view The view for the fragment
-     */
-    public void preparePresenter(View view, String student){
-
-        presenter = new ViewCoursesPresenter(new MyCourseRepo(appData.dbReference,student));
-        presenter.refreshData();
-        ListView listView = view.findViewById(R.id.list);
-
-        adapter = dataAdapter();
-        listView.setAdapter(adapter);
     }
 
     /**
@@ -54,32 +53,11 @@ public class MyCourseFragment extends Fragment {
      * @return an ArrayAdapter that can be used with a list view.
      */
     ArrayAdapter dataAdapter() {
-        /*
-        ViewCoursesViewModel viewModel = presenter.getViewModel();
-
-        Collection<CourseListingViewModel> courses = viewModel.courses;
-        CourseListingViewModel listings[] = new CourseListingViewModel[courses.size()];
-        courses.toArray(listings);
-        */
-
-        ArrayList<CourseListingViewModel> listings = presenter.getViewModel().courses;
+        ArrayList<CourseListingViewModel> listings = viewModel.courses;
         return new ArrayAdapter<>(
                 MyCourseFragment.this.getActivity(),
                 android.R.layout.simple_list_item_1,
                 listings
         );
     }
-    
-    /**
-     * Generates a fake Repo with a single course
-     * @return a CourseRepo for the current user
-     */
-    CourseRepo getCourseRepo(){
-        CourseSet courses = new CourseSet();
-
-        courses.addCourse(new Course("1","test","testname"));
-
-        return new FakeCourseRepo();
-    }
-
 }

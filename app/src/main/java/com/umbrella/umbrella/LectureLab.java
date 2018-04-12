@@ -46,6 +46,19 @@ class LectureLab {
         this.crn = other.crn;
     }
 
+    @Override
+    public int hashCode() {
+        return crn.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof LectureLab)) {
+            return false;
+        }
+        return ((LectureLab)other).getCRN().equals(getCRN());
+    }
+
     public String getCRN() {
         return crn;
     }

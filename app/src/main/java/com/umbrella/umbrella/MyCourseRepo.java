@@ -12,19 +12,17 @@ import com.google.firebase.database.ValueEventListener;
  * An implementation of the CourseRepo interface for a specific User's courses
  */
 
-public class MyCourseRepo implements CourseRepo {
+public class MyCourseRepo {
     private CourseSet courses;
 
     /**
      * Gets all the courses in the repo
      * @return The CourseSet containing all the courses in the repo
      */
-    @Override
     public CourseSet getAllCourses(){
         return courses;
     }
 
-    @Override
     public Course getCourse(String s){
         return courses.getCourseByID(s);
     }
