@@ -6,17 +6,11 @@
             android:title="Home"
             android:checked="true" />
         <item
-            android:id="@+id/nav_camera"
-            android:title="View schedule" />
-        <item
             android:id="@+id/nav_view_my_courses"
             android:title="My Courses" />
         <item
             android:id="@+id/nav_add_drop"
             android:title="Add / drop courses" />
-        <item
-            android:id="@+id/nav_browse"
-            android:title="Browse courses" />
         <item
             android:id="@+id/nav_logout"
             android:title="Logout" />
