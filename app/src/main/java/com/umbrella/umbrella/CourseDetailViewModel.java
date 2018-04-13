@@ -14,6 +14,9 @@ public class CourseDetailViewModel {
     public String description;
     public ArrayList<CourseRegistrationInfoViewModel> registrationOptions;
 
+    public String successMessage;
+    public String errorMessage;
+
     CourseDetailViewModel(String id, String name, String description) {
         this.id = id;
         this.name = name;

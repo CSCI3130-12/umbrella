@@ -1,10 +1,13 @@
 package com.umbrella.umbrella;
 
+import android.widget.ArrayAdapter;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Created by Ben Baker on 2018-02-22.
@@ -14,10 +17,22 @@ import java.util.List;
 public class ViewCoursesPresenter {
     private final ViewAllCourses viewAllCourses;
     private CourseSet courses;
+    private Function<ViewCoursesViewModel, Void> onViewModelChanged;
 
+    public void setOnViewModelChanged(Function<ViewCoursesViewModel, Void> onViewModelChanged) {
+        this.onViewModelChanged = onViewModelChanged;
+    }
+
+
+    /**
+     * A constructor to create the presenter and refresh its data
+     * @param repo The CourseRepo to populate the presenter
+     */
     public ViewCoursesPresenter(CourseRepo repo) {
         this.viewAllCourses = new ViewAllCourses(repo);
         this.refreshData();
+        onViewModelChanged = x -> null;
+        courses = new CourseSet();
     }
 
     /**
@@ -37,7 +52,16 @@ public class ViewCoursesPresenter {
      * Refreshes the data in the CourseSet
      */
     public void refreshData() {
-        this.courses = viewAllCourses.viewAllCourses();
+        viewAllCourses.viewAllCourses().thenAccept(courses -> {
+            System.out.println("Got all courses " + courses.size());
+            this.courses = courses;
+            signalViewModelChanged();
+        });
+    }
+
+    private void signalViewModelChanged() {
+        System.out.println("========== SIGNAL");
+        this.onViewModelChanged.apply(getViewModel());
     }
 
     /**
@@ -50,6 +74,14 @@ public class ViewCoursesPresenter {
                 course.getCourseID(),
                 course.getCourseName()
         );
+    }
+
+    /**
+     * Updates the array adapter with the new CourseListingViewModels
+     * @param adapter The adapter to push the new information to
+     */
+    public void pushToAdapter(ArrayAdapter<CourseListingViewModel> adapter){
+        adapter.addAll(getViewModel().courses);
     }
 
     /**

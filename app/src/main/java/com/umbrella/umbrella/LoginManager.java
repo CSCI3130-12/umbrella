@@ -63,7 +63,6 @@ public class LoginManager {
      * @return a boolean indicating a successful login
      */
     public boolean login(String username, String password) {
-
         for (User user : users)
             if (user.getUsername().equals(username)) {
                 return user.getPassword().equals((password));

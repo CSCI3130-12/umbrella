@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,11 +33,12 @@ public class LoginActivity extends AppCompatActivity {
         loginManager = new LoginManager(db);
     }
 
+
     /**
      * A button press event triggered upon the login button being pressed
      * @param view The view in which the event was triggered
      */
-    public void loginButtonPress(View view) {
+    public void buttonPress(View view) {
         EditText user = findViewById(R.id.username);
         EditText pass = findViewById(R.id.password);
         String username = user.getText().toString(),

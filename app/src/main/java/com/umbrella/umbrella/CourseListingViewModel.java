@@ -31,7 +31,7 @@ public class CourseListingViewModel {
 
     /** @return the displayable title of the course */
     public String getName() {
-        if(name == null)
+        if (name == null)
             return "Loading courses...";
         else
             return name;

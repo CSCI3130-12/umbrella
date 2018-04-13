@@ -1,52 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.umbrella.umbrella.LoginActivity"
-    android:background="#494949">
+    tools:context="com.umbrella.umbrella.LoginActivity">
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_alignEnd="@+id/output"
-        android:layout_below="@+id/output"
-        android:layout_marginTop="55dp"
-        android:ems="10"
-        android:hint="Username"
-        android:inputType="textPersonName" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.umbrella.umbrella.LoginActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="165dp"
+            android:background="@color/colorPrimary"
+            android:text="Umbrella"
+            android:textColor="#ffffff"
+            android:textSize="30dp"
+            android:textAlignment="center"
+            android:padding="60dp"/>
 
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_alignStart="@+id/username"
-        android:layout_below="@+id/username"
-        android:layout_marginTop="46dp"
-        android:drawableLeft="@drawable/ic_action_pass"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="130dp"
+            android:ems="10"
+            android:hint="Username"
+            android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/output"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="76dp"
-        android:text="Incorrect Username and Password"
-        android:visibility="invisible"/>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="34dp"
-        android:onClick="loginButtonPress"
-        android:text="Login" />
-</RelativeLayout>
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignStart="@+id/username"
+            android:layout_below="@+id/username"
+            android:layout_marginTop="30dp"
+            android:drawableLeft="@drawable/ic_action_pass"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/output"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/username"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="43dp"
+            android:text="Incorrect Username and Password"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="215dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/password"
+            android:layout_alignStart="@+id/password"
+            android:layout_below="@+id/password"
+            android:layout_marginTop="26dp"
+            android:background="@color/colorPrimary"
+            android:textColor="#ffffff"
+            android:onClick="buttonPress"
+            android:text="Login" />
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.DrawerLayout>

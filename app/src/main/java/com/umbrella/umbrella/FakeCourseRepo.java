@@ -8,7 +8,7 @@ import java.io.Serializable;
  * to hold the place of the database for testing
  */
 
-public class FakeCourseRepo implements CourseRepo, Serializable {
+public class FakeCourseRepo implements Serializable {
 
     private final CourseSet fakeCourses;
 
@@ -30,7 +30,6 @@ public class FakeCourseRepo implements CourseRepo, Serializable {
      * Returns the set of courses for this repo
      * @return A CourseSet containing all the courses
      */
-    @Override
     public CourseSet getAllCourses() {
         return fakeCourses;
     }
@@ -40,7 +39,6 @@ public class FakeCourseRepo implements CourseRepo, Serializable {
      * @param courseID - the id to search for
      * @return a course with the given id, or null
      */
-    @Override
     public Course getCourse(String courseID) {
         return fakeCourses.getCourseByID(courseID);
     }
@@ -61,6 +59,7 @@ public class FakeCourseRepo implements CourseRepo, Serializable {
     private LectureLab makeFakeLecture(Course course) {
         LectureLab lecture = new LectureLab(
                 course,
+                "123123",
                 "Dr. Fake",
                 "The Moon",
                 35,
@@ -85,10 +84,11 @@ public class FakeCourseRepo implements CourseRepo, Serializable {
     private LectureLab makeOtherFakeLecture(Course course) {
         LectureLab lecture = new LectureLab(
                 course,
+                "123123",
                 "Dr. Fake",
                 "The Moon",
                 35,
-                35
+                30
         );
         lecture.setWaitlistCount(5);
         lecture.addTimeRange(new LectureLabTimeRange(

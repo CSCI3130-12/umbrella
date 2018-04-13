@@ -1,12 +1,13 @@
 package com.umbrella.umbrella;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * Created by Ben Baker on 2018-02-22.
  * A class containing functionality to view all the courses within a repo
  */
 
 public class ViewAllCourses {
-
     private final CourseRepo repo;
 
     /**
@@ -21,7 +22,7 @@ public class ViewAllCourses {
      * Returns all the courses in the repo as a CourseSet
      * @return A CourseSet containing all the courses in the repo
      */
-    public CourseSet viewAllCourses() {
+    public CompletableFuture<CourseSet> viewAllCourses() {
         return repo.getAllCourses();
     }
 }

@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 class LectureLab {
+
     public enum Type {
         LECTURE,
         LAB,
@@ -19,10 +20,12 @@ class LectureLab {
     private final int maxStudents;
     private int waitlistCount;
     private int studentCount;
+    private String crn;
 
     private ArrayList<LectureLabTimeRange> times;
 
-    public LectureLab(Course course, String instructor, String location, int maxStudents, int studentCount) {
+    public LectureLab(Course course, String crn, String instructor, String location, int maxStudents, int studentCount) {
+        this.crn = crn;
         this.course = course;
         this.instructor = instructor;
         this.location = location;
@@ -40,6 +43,24 @@ class LectureLab {
         this.studentCount = other.studentCount;
         this.times = other.times;
         this.waitlistCount = other.waitlistCount;
+        this.crn = other.crn;
+    }
+
+    @Override
+    public int hashCode() {
+        return crn.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof LectureLab)) {
+            return false;
+        }
+        return ((LectureLab)other).getCRN().equals(getCRN());
+    }
+
+    public String getCRN() {
+        return crn;
     }
 
     public int getStudentCount() {

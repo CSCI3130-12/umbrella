@@ -26,6 +26,8 @@ public class Student extends User {
     /** Deep-clone a student from another */
     public Student(Student other) {
         super();
+        setUsername(other.getUsername());
+        setPassword(other.getPassword());
         this.registration = new LectureLabSet(other.registration);
         this.creditsAcquired = new CourseSet(other.creditsAcquired);
     }
@@ -77,5 +79,18 @@ public class Student extends User {
 
     public void addCredit(Course course) {
         creditsAcquired.addCourse(course);
+    }
+
+    public LectureLabSet getRegistration() {
+        return registration;
+    }
+
+    public CourseSet getRegisteredCourses() {
+        try {
+            return registration.getCourses();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

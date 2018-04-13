@@ -60,4 +60,13 @@ class LectureLabSet implements Iterable<LectureLab> {
         intersection.retainAll(requiredLectures.lectureLabs);
         return !intersection.isEmpty();
     }
+
+    public LectureLab getLectureByCRN(String crn) {
+        for (LectureLab lab : lectureLabs) {
+            if (lab.getCRN().equals(crn)) {
+                return lab;
+            }
+        }
+        return null;
+    }
 }

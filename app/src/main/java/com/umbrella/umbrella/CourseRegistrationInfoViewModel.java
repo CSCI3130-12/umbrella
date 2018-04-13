@@ -5,7 +5,9 @@ package com.umbrella.umbrella;
  */
 
 public class CourseRegistrationInfoViewModel {
+    public String crn;
     public String title;
+    public boolean isChecked;
 
     public String toString() {
         return title;

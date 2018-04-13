@@ -25,17 +25,16 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_constraintBottom_toTopOf="@+id/registration_deadline" />
 
-        <LinearLayout android:orientation="vertical"
+        <LinearLayout android:orientation="horizontal"
             android:id="@+id/fragment_container"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
         </LinearLayout>
     </LinearLayout>
 
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
-
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
